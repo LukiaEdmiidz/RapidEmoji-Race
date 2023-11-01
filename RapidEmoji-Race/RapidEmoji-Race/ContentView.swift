@@ -12,35 +12,36 @@
 import SwiftUI
 
 struct ContentView: View {
-    // Sample flashcards
-//    let flashcards: [Flashcard] = [
-//        // ... your 10 sample flashcards here ...
-//    ]
-    
-    // The current flashcard index.
+    @State private var showWord: Bool = false
     @State private var currentIndex: Int = 0
     
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
+            // The emoji card
             FlashcardView(flashcard: flashcards[currentIndex])
-            
-            HStack {
-                Button("Previous") {
-                    if currentIndex > 0 {
-                        currentIndex -= 1
-                    }
+                .onTapGesture {
+                    showWord.toggle()
                 }
-                .padding()
-                
-                Button("Next") {
-                    if currentIndex < flashcards.count - 1 {
-                        currentIndex += 1
-                    }
-                }
-                .padding()
+
+            // Conditionally render the word or the hint
+            if showWord {
+                Text(flashcards[currentIndex].word)
+                    .font(.title)
+                    .padding()
+            } else {
+                Text("Tap to reveal word")
+                    .font(.subheadline)
+                    .padding()
+                    .foregroundColor(.gray)
             }
+
+        }
+        .padding(.top, 50)  // Add padding to the top
+        .onAppear {
+            showWord = false
         }
     }
 }
+
 
 
