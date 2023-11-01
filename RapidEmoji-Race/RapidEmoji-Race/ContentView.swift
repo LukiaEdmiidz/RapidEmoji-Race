@@ -9,25 +9,20 @@
 
 
 
-
 import SwiftUI
 
 struct ContentView: View {
-    // Sample data to work with.
- 
+    // Sample flashcards
+//    let flashcards: [Flashcard] = [
+//        // ... your 10 sample flashcards here ...
+//    ]
     
     // The current flashcard index.
     @State private var currentIndex: Int = 0
     
     var body: some View {
         VStack {
-            Text(flashcards[currentIndex].emoji)
-                .font(.largeTitle)
-                .padding()
-            
-            Text(flashcards[currentIndex].word)
-                .font(.title)
-                .padding()
+            FlashcardView(flashcard: flashcards[currentIndex])
             
             HStack {
                 Button("Previous") {
