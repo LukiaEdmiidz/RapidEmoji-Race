@@ -15,6 +15,7 @@
 		A579E3A32AF2ECAA004BFE6A /* RapidEmoji_RaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A579E3A22AF2ECAA004BFE6A /* RapidEmoji_RaceTests.swift */; };
 		A579E3AD2AF2ECAA004BFE6A /* RapidEmoji_RaceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A579E3AC2AF2ECAA004BFE6A /* RapidEmoji_RaceUITests.swift */; };
 		A579E3AF2AF2ECAA004BFE6A /* RapidEmoji_RaceUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A579E3AE2AF2ECAA004BFE6A /* RapidEmoji_RaceUITestsLaunchTests.swift */; };
+		A579E3BC2AF2F6B1004BFE6A /* Flash Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = A579E3BB2AF2F6B1004BFE6A /* Flash Card.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		A579E3A82AF2ECAA004BFE6A /* RapidEmoji-RaceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RapidEmoji-RaceUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A579E3AC2AF2ECAA004BFE6A /* RapidEmoji_RaceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidEmoji_RaceUITests.swift; sourceTree = "<group>"; };
 		A579E3AE2AF2ECAA004BFE6A /* RapidEmoji_RaceUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidEmoji_RaceUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		A579E3BB2AF2F6B1004BFE6A /* Flash Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Flash Card.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 				A579E3932AF2ECA8004BFE6A /* Item.swift */,
 				A579E3952AF2ECA9004BFE6A /* Assets.xcassets */,
 				A579E3972AF2ECA9004BFE6A /* Preview Content */,
+				A579E3BB2AF2F6B1004BFE6A /* Flash Card.swift */,
 			);
 			path = "RapidEmoji-Race";
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 				A579E3922AF2ECA8004BFE6A /* ContentView.swift in Sources */,
 				A579E3942AF2ECA8004BFE6A /* Item.swift in Sources */,
 				A579E3902AF2ECA8004BFE6A /* RapidEmoji_RaceApp.swift in Sources */,
+				A579E3BC2AF2F6B1004BFE6A /* Flash Card.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

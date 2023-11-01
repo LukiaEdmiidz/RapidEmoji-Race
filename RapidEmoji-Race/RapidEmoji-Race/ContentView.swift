@@ -5,57 +5,47 @@
 //  Created by Lukia Edmiidz on 11/1/23.
 //
 
+
+
+
+
+
 import SwiftUI
-import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
+    // Sample data to work with.
+ 
+    
+    // The current flashcard index.
+    @State private var currentIndex: Int = 0
+    
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+        VStack {
+            Text(flashcards[currentIndex].emoji)
+                .font(.largeTitle)
+                .padding()
+            
+            Text(flashcards[currentIndex].word)
+                .font(.title)
+                .padding()
+            
+            HStack {
+                Button("Previous") {
+                    if currentIndex > 0 {
+                        currentIndex -= 1
                     }
                 }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                .padding()
+                
+                Button("Next") {
+                    if currentIndex < flashcards.count - 1 {
+                        currentIndex += 1
                     }
                 }
-            }
-        } detail: {
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
+                .padding()
             }
         }
     }
 }
 
-#Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
-}
+
