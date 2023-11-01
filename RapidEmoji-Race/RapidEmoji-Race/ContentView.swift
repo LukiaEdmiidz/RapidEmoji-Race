@@ -18,16 +18,16 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 20) {
             // The emoji card
-            FlashcardView(flashcard: flashcards[currentIndex])
+            FlashcardView(flashcard: flashcards[currentIndex], showWord: showWord)
                 .onTapGesture {
                     showWord.toggle()
                 }
 
             // Conditionally render the word or the hint
             if showWord {
-                Text(flashcards[currentIndex].word)
-                    .font(.title)
-                    .padding()
+//                Text(flashcards[currentIndex].word)
+//                    .font(.title)
+//                    .padding()
             } else {
                 Text("Tap to reveal word")
                     .font(.subheadline)

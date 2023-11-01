@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FlashcardView: View {
     var flashcard: Flashcard
+    var showWord: Bool  // Added this to control word display
 
     var body: some View {
         VStack(spacing: 20) {
@@ -16,13 +17,16 @@ struct FlashcardView: View {
                 .font(.system(size: 200)) // Adjust the size as desired.
                 .padding()
 
-            Text(flashcard.word)
-                .font(.title)
-                .padding()
+            if showWord {  // Only show the word if showWord is true
+                Text(flashcard.word)
+                    .font(.title)
+                    .padding()
+            }
         }
         .padding()
     }
 }
+
 
 
 
