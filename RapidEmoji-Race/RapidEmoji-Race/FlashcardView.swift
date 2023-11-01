@@ -8,21 +8,22 @@
 import SwiftUI
 
 struct FlashcardView: View {
-    let flashcard: Flashcard
-    
+    var flashcard: Flashcard
+
     var body: some View {
-        VStack {
-            Text(flashcard.word)
-                .font(.largeTitle)
-                .padding()
+        VStack(spacing: 20) {
             Text(flashcard.emoji)
-                .font(.largeTitle)
+                .font(.system(size: 200)) // Adjust the size as desired.
+                .padding()
+
+            Text(flashcard.word)
+                .font(.title)
                 .padding()
         }
-        .border(Color.black, width: 2)
         .padding()
     }
 }
+
 
 
 
