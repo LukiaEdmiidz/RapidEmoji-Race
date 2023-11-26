@@ -1,9 +1,12 @@
+//MainActivity.kt
+
 package com.edmiidz.rapidemoji_race
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.*
@@ -18,26 +21,11 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.edmiidz.rapidemoji_race.ui.theme.RapidEmojiRaceTheme
-import java.util.*
 import kotlin.math.roundToInt
-import androidx.compose.foundation.gestures.Orientation
 
-
-data class Flashcard(val id: UUID = UUID.randomUUID(), val emoji: String, val word: String)
-
-val flashcards = listOf(
-    Flashcard(emoji = "👋", word = "Hello"),
-    Flashcard(emoji = "😀", word = "Smile"),
-    Flashcard(emoji = "🍎", word = "Apple"),
-    Flashcard(emoji = "🚗", word = "Car"),
-    Flashcard(emoji = "🌲", word = "Tree"),
-    Flashcard(emoji = "🐱", word = "Cat"),
-    Flashcard(emoji = "📚", word = "Book"),
-    Flashcard(emoji = "🚀", word = "Rocket"),
-    Flashcard(emoji = "🎩", word = "Hat"),
-    Flashcard(emoji = "🌂", word = "Umbrella"),
-    Flashcard(emoji = "⏰", word = "Clock")
-)
+// Make sure to import the functions from FlashcardUtils.kt
+// import com.edmiidz.rapidemoji_race.handleSwipeLeft
+// import com.edmiidz.rapidemoji_race.handleSwipeRight
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,10 +43,27 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
 fun FlashcardScreen() {
-    var showWord by remember { mutableStateOf(false) }
     var currentIndex by remember { mutableStateOf(0) }
+    var showWord by remember { mutableStateOf(false) }
+    val flashcards = remember {
+        mutableStateListOf(
+    Flashcard(emoji = "😀", word = "Smile"),
+    Flashcard(emoji = "🍎", word = "Apple"),
+    Flashcard(emoji = "🚗", word = "Car"),
+    Flashcard(emoji = "🌲", word = "Tree"),
+    Flashcard(emoji = "🐱", word = "Cat"),
+    Flashcard(emoji = "📚", word = "Book"),
+    Flashcard(emoji = "🚀", word = "Rocket"),
+    Flashcard(emoji = "🎩", word = "Hat"),
+    Flashcard(emoji = "🌂", word = "Umbrella"),
+    Flashcard(emoji = "⏰", word = "Clock")
+
+        )
+    }
+
     val maxIndex = flashcards.size - 1
 
     Column(modifier = Modifier.padding(16.dp)) {
