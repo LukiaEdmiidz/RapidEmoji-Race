@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.edmiidz.rapidemoji_race"
-        minSdk = 33
+        minSdk = 32
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
