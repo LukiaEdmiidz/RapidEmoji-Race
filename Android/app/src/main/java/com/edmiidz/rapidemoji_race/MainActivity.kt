@@ -3,29 +3,28 @@ package com.edmiidz.rapidemoji_race
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.edmiidz.rapidemoji_race.ui.theme.RapidEmojiRaceTheme
-import java.util.UUID
 import androidx.compose.runtime.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.ui.*
-import androidx.compose.ui.unit.*
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.edmiidz.rapidemoji_race.ui.theme.RapidEmojiRaceTheme
+import java.util.*
+import kotlin.math.roundToInt
+import androidx.compose.foundation.gestures.Orientation
 
 
-
-//Flashcard Data Class
 data class Flashcard(val id: UUID = UUID.randomUUID(), val emoji: String, val word: String)
 
-// List of Flashcards
 val flashcards = listOf(
     Flashcard(emoji = "👋", word = "Hello"),
     Flashcard(emoji = "😀", word = "Smile"),
@@ -40,21 +39,16 @@ val flashcards = listOf(
     Flashcard(emoji = "⏰", word = "Clock")
 )
 
-
-
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             RapidEmojiRaceTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    FlashcardScreen() // Use FlashcardScreen here
+                    FlashcardScreen()
                 }
             }
         }
@@ -65,63 +59,79 @@ class MainActivity : ComponentActivity() {
 fun FlashcardScreen() {
     var showWord by remember { mutableStateOf(false) }
     var currentIndex by remember { mutableStateOf(0) }
+    val maxIndex = flashcards.size - 1
 
     Column(modifier = Modifier.padding(16.dp)) {
         FlashcardView(
             flashcard = flashcards[currentIndex],
             showWord = showWord,
-            onCardTap = { showWord = !showWord }
+            onCardTap = { showWord = !showWord },
+            onSwipeLeft = {
+                if (currentIndex < maxIndex) {
+                    currentIndex++
+                    showWord = false
+                }
+            },
+            onSwipeRight = {
+                if (currentIndex > 0) {
+                    currentIndex--
+                    showWord = false
+                }
+            }
         )
-    }
 
-    Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-        Button(onClick = { 
-            if (currentIndex > 0) currentIndex-- 
-            showWord = false  // Reset word visibility
-        }) {
-            Text("Previous")
-        }
-
-        Button(onClick = { 
-            if (currentIndex < flashcards.size - 1) currentIndex++ 
-            showWord = false  // Reset word visibility
-        }) {
-            Text("Next")
+        Row(horizontalArrangement = Arrangement.SpaceEvenly) {
+            Button(onClick = { 
+                if (currentIndex > 0) currentIndex-- 
+                showWord = false 
+            }) {
+                Text("Previous")
+            }
+            Button(onClick = { 
+                if (currentIndex < maxIndex) currentIndex++ 
+                showWord = false 
+            }) {
+                Text("Next")
+            }
         }
     }
 }
 
-
 @Composable
-fun FlashcardView(flashcard: Flashcard, showWord: Boolean, onCardTap: () -> Unit) {
+fun FlashcardView(
+    flashcard: Flashcard, 
+    showWord: Boolean, 
+    onCardTap: () -> Unit,
+    onSwipeLeft: () -> Unit, 
+    onSwipeRight: () -> Unit
+) {
+    val dragOffset = remember { mutableStateOf(0f) }
+
     Column(
         modifier = Modifier
             .padding(16.dp)
-            .fillMaxWidth()  // Fills the maximum width of the parent
-            .clickable(onClick = onCardTap),  // Calls the onCardTap function when clicked
-        horizontalAlignment = Alignment.CenterHorizontally,  // Centers content horizontally
-        verticalArrangement = Arrangement.Center  // Centers content vertically
+            .fillMaxWidth()
+            .clickable(onClick = onCardTap)
+            .offset { IntOffset(dragOffset.value.roundToInt(), 0) }
+            .draggable(
+                orientation = Orientation.Horizontal,
+                state = rememberDraggableState { delta ->
+                    dragOffset.value += delta
+                },
+                onDragStopped = {
+                    when {
+                        dragOffset.value > 100 -> onSwipeRight()
+                        dragOffset.value < -100 -> onSwipeLeft()
+                    }
+                    dragOffset.value = 0f
+                }
+            ),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = flashcard.emoji,
-            fontSize = 200.sp,  // Adjust the size as desired
-            modifier = Modifier.padding(16.dp)
-        )
+        Text(text = flashcard.emoji, fontSize = 200.sp)
         if (showWord) {
-            Text(
-                text = flashcard.word,
-                fontSize = 24.sp,  // Adjust the title font size as desired
-                modifier = Modifier.padding(16.dp)
-            )
+            Text(text = flashcard.word, fontSize = 24.sp)
         }
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun FlashcardScreenPreview() {
-    RapidEmojiRaceTheme {
-        FlashcardScreen()
     }
 }
