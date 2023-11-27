@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.edmiidz.rapidemoji_race.ui.theme.RapidEmojiRaceTheme
 import kotlin.math.roundToInt
+import com.edmiidz.rapidemoji_race.Flashcard
 
 // Make sure to import the functions from FlashcardUtils.kt
 // import com.edmiidz.rapidemoji_race.handleSwipeLeft
@@ -63,27 +64,29 @@ fun FlashcardScreen() {
 
         )
     }
-
     val maxIndex = flashcards.size - 1
 
+    // Function to safely update currentIndex
+    fun updateIndex(newIndex: Int) {
+        currentIndex = newIndex.coerceIn(0, flashcards.size - 1)
+    }
+
     Column(modifier = Modifier.padding(16.dp)) {
-        FlashcardView(
-            flashcard = flashcards[currentIndex],
-            showWord = showWord,
-            onCardTap = { showWord = !showWord },
-            onSwipeLeft = {
-                if (currentIndex < maxIndex) {
-                    currentIndex++
-                    showWord = false
+        if (flashcards.isNotEmpty()) {
+            FlashcardView(
+                flashcard = flashcards[currentIndex],
+                showWord = showWord,
+                onCardTap = { showWord = !showWord },
+                onSwipeLeft = { 
+                    handleSwipeLeft(flashcards, currentIndex)
+                    updateIndex(currentIndex + 1)
+                },
+                onSwipeRight = {
+                    handleSwipeRight(flashcards, currentIndex)
+                    updateIndex(currentIndex - 1)
                 }
-            },
-            onSwipeRight = {
-                if (currentIndex > 0) {
-                    currentIndex--
-                    showWord = false
-                }
-            }
-        )
+            )
+        }
 
         Row(horizontalArrangement = Arrangement.SpaceEvenly) {
             Button(onClick = { 
