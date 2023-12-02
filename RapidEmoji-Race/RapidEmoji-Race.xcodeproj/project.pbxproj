@@ -17,6 +17,9 @@
 		A579E3AF2AF2ECAA004BFE6A /* RapidEmoji_RaceUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A579E3AE2AF2ECAA004BFE6A /* RapidEmoji_RaceUITestsLaunchTests.swift */; };
 		A579E3BC2AF2F6B1004BFE6A /* Flash Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = A579E3BB2AF2F6B1004BFE6A /* Flash Card.swift */; };
 		A579E3C02AF2F915004BFE6A /* FlashcardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A579E3BF2AF2F915004BFE6A /* FlashcardView.swift */; };
+		A5991B9F2B1ABE5D004384B3 /* EmojiRealmDB.realm in Resources */ = {isa = PBXBuildFile; fileRef = A5991B9E2B1ABE5C004384B3 /* EmojiRealmDB.realm */; };
+		A5991BA02B1ABE5D004384B3 /* EmojiRealmDB.realm in Resources */ = {isa = PBXBuildFile; fileRef = A5991B9E2B1ABE5C004384B3 /* EmojiRealmDB.realm */; };
+		A5991BA12B1ABE5D004384B3 /* EmojiRealmDB.realm in Resources */ = {isa = PBXBuildFile; fileRef = A5991B9E2B1ABE5C004384B3 /* EmojiRealmDB.realm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +53,7 @@
 		A579E3AE2AF2ECAA004BFE6A /* RapidEmoji_RaceUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidEmoji_RaceUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		A579E3BB2AF2F6B1004BFE6A /* Flash Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Flash Card.swift"; sourceTree = "<group>"; };
 		A579E3BF2AF2F915004BFE6A /* FlashcardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardView.swift; sourceTree = "<group>"; };
+		A5991B9E2B1ABE5C004384B3 /* EmojiRealmDB.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = EmojiRealmDB.realm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +84,7 @@
 		A579E3832AF2ECA8004BFE6A = {
 			isa = PBXGroup;
 			children = (
+				A5991B9E2B1ABE5C004384B3 /* EmojiRealmDB.realm */,
 				A579E38E2AF2ECA8004BFE6A /* RapidEmoji-Race */,
 				A579E3A12AF2ECAA004BFE6A /* RapidEmoji-RaceTests */,
 				A579E3AB2AF2ECAA004BFE6A /* RapidEmoji-RaceUITests */,
@@ -224,6 +229,9 @@
 				Base,
 			);
 			mainGroup = A579E3832AF2ECA8004BFE6A;
+			packageReferences = (
+				A5991BA22B1AC230004384B3 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
+			);
 			productRefGroup = A579E38D2AF2ECA8004BFE6A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -242,6 +250,7 @@
 			files = (
 				A579E3992AF2ECA9004BFE6A /* Preview Assets.xcassets in Resources */,
 				A579E3962AF2ECA9004BFE6A /* Assets.xcassets in Resources */,
+				A5991B9F2B1ABE5D004384B3 /* EmojiRealmDB.realm in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +258,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5991BA02B1ABE5D004384B3 /* EmojiRealmDB.realm in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +266,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5991BA12B1ABE5D004384B3 /* EmojiRealmDB.realm in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -594,6 +605,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A5991BA22B1AC230004384B3 /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-cocoa";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = A579E3842AF2ECA8004BFE6A /* Project object */;
 }

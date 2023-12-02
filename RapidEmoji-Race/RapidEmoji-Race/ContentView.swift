@@ -55,7 +55,7 @@ struct ContentView: View {
 //                    .font(.title)
 //                    .padding()
             } else {
-                Text("Tap to reveal word")
+                Text("Tap to reveal word!")
                     .font(.subheadline)
                     .padding()
                     .foregroundColor(.gray)
