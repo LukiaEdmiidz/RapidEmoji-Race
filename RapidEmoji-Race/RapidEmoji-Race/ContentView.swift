@@ -1,21 +1,10 @@
-//
-//  ContentView.swift
-//  RapidEmoji-Race
-//
-//  Created by Lukia Edmiidz on 11/1/23.
-//
-
-
-
-
-
 import SwiftUI
+import Foundation
 
 struct ContentView: View {
     @State private var showWord: Bool = false
     @State private var currentIndex: Int = 0
     @State private var offset: CGSize = .zero
-
 
     var body: some View {
         VStack(spacing: 20) {
@@ -28,10 +17,10 @@ struct ContentView: View {
                             self.offset = gesture.translation
                         }
                         .onEnded { _ in
-                            if self.offset.width > 100 {  // swiped right
+                            if self.offset.width > 100 { // swiped right
                                 self.showWord = false
                                 self.nextCard()
-                            } else if self.offset.width < -100 {  // swiped left
+                            } else if self.offset.width < -100 { // swiped left
                                 self.showWord = false
                                 self.nextCard()
                             }
@@ -39,21 +28,13 @@ struct ContentView: View {
                         }
                 )
                 .simultaneousGesture(TapGesture()
-                                        .onEnded { _ in
-                                            self.showWord.toggle()
-                                        })
-
-
-
-
-
-
+                    .onEnded { _ in
+                        self.showWord.toggle()
+                    })
 
             // Conditionally render the word or the hint
             if showWord {
-//                Text(flashcards[currentIndex].word)
-//                    .font(.title)
-//                    .padding()
+                // ... your existing code ...
             } else {
                 Text("Tap to reveal word!")
                     .font(.subheadline)
@@ -61,13 +42,18 @@ struct ContentView: View {
                     .foregroundColor(.gray)
             }
 
+            // Add timestamp information
+            Text("Built on: February 14, 2024")
+                .font(.system(size: 12)) // Adjust font size and style as needed
+                .padding(.top) // Add some padding above the timestamp
+
         }
-        .padding(.top, 50)  // Add padding to the top
+        .padding(.top, 50) // Add padding to the top
         .onAppear {
             showWord = false
         }
     }
-    
+
     func nextCard() {
         if currentIndex < flashcards.count - 1 {
             currentIndex += 1
@@ -75,10 +61,4 @@ struct ContentView: View {
             currentIndex = 0
         }
     }
-
-
-
 }
-
-
-
