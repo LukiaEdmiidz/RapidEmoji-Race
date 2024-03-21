@@ -43,7 +43,7 @@ struct ContentView: View {
             }
 
             // Add timestamp information
-            Text("Built on: February 14, 2024")
+            Text("Built on: March 6, 2024")
                 .font(.system(size: 12)) // Adjust font size and style as needed
                 .padding(.top) // Add some padding above the timestamp
 

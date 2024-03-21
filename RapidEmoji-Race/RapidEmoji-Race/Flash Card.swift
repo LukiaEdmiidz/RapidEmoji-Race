@@ -16,7 +16,7 @@ struct Flashcard: Identifiable {
 
 let flashcards: [Flashcard] = [
     Flashcard(emoji: "😀", word: "Smile"),
-    Flashcard(emoji: "🍎", word: "Apple"),
+    Flashcard(emoji: "🍎", word: "Red Apple"),
     Flashcard(emoji: "🚗", word: "Car"),
     Flashcard(emoji: "🌲", word: "Tree"),
     Flashcard(emoji: "🐱", word: "Cat"),
