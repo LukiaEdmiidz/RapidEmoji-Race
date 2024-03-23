@@ -1,5 +1,3 @@
-//ContentView.swift
-
 import SwiftUI
 import RealmSwift  // Make sure to import RealmSwift
 
@@ -13,11 +11,6 @@ struct ContentView: View {
         VStack(spacing: 20) {
             // Safely access the current flashcard
             if let flashcard = flashcards[safe: currentIndex] {
-                // Debugging: Print the current flashcard to ensure data is fetched
-                Text("Debug: \(flashcard.emoji) - \(flashcard.word)")
-                    .onAppear {
-                        print("Current Flashcard: \(flashcard.emoji) - \(flashcard.word)")
-                    }
                 FlashcardView(flashcard: flashcard, showWord: showWord)
                     .offset(offset)
                     .gesture(
@@ -38,13 +31,7 @@ struct ContentView: View {
                             self.showWord.toggle()
                         }
                     )
-         } else {
-            // Debugging: This will be shown if no flashcards are fetched
-            Text("No flashcards available")
-                .onAppear {
-                    print("No flashcards fetched from Realm")
-                }
-        }
+            }
 
             // Show hint when the word is not shown
             if !showWord {
@@ -84,3 +71,5 @@ let dateFormatter: DateFormatter = {
     formatter.timeStyle = .none
     return formatter
 }()
+
+
