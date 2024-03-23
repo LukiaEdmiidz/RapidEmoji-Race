@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 struct FlashcardView: View {
     var flashcard: Flashcard  // Ensure this is the Realm Object
@@ -22,6 +23,7 @@ struct FlashcardView: View {
         }
     }
 }
+
 
 
 

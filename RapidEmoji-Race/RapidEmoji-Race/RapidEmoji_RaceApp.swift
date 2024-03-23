@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import RealmSwift
 
 @main
 struct RapidEmoji_RaceApp: App {
