@@ -15,7 +15,7 @@ struct ContentView: View {
             List(emojiManager.emojis, id: \.Emoji) { emoji in
                 Text(emoji.Emoji) // Ensure this is the correct property to display
             }
-            .navigationBarTitle("Emojis002")
+            .navigationBarTitle("Emojis")
             .onAppear {
                 print("DebugNote: ContentView is appearing, calling fetchAllEmojis()")
                 emojiManager.fetchAllEmojis()
