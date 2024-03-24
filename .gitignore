@@ -60,3 +60,5 @@ RapidEmoji-Race/**/*.write.mx
 # Your project's specific files (seems like backup or duplicate folders)
 RapidEmoji-Race copy/
 RapidEmoji-Race/.DS_Store
+RapidEmoji-Race/RapidEmoji-Race.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+RapidEmoji-Race/.DS_Store
