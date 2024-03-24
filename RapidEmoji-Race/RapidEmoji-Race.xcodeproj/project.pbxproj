@@ -86,7 +86,6 @@
 		A579E3832AF2ECA8004BFE6A = {
 			isa = PBXGroup;
 			children = (
-				A5991B9E2B1ABE5C004384B3 /* EmojiRealmDB.realm */,
 				A579E38E2AF2ECA8004BFE6A /* RapidEmoji-Race */,
 				A579E3A12AF2ECAA004BFE6A /* RapidEmoji-RaceTests */,
 				A579E3AB2AF2ECAA004BFE6A /* RapidEmoji-RaceUITests */,
@@ -108,6 +107,7 @@
 		A579E38E2AF2ECA8004BFE6A /* RapidEmoji-Race */ = {
 			isa = PBXGroup;
 			children = (
+				A5991B9E2B1ABE5C004384B3 /* EmojiRealmDB.realm */,
 				A579E38F2AF2ECA8004BFE6A /* RapidEmoji_RaceApp.swift */,
 				A579E3912AF2ECA8004BFE6A /* ContentView.swift */,
 				A579E3932AF2ECA8004BFE6A /* Item.swift */,
