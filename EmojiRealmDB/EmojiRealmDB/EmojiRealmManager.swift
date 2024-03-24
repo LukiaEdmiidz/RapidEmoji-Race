@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-class EmojiRealmDB {
+class EmojiRealmManager {  // Rename the class to match the reference in ContentView.swift
 
     // MARK: - Create
     func addEmoji(_ emoji: Emoji) {
@@ -23,13 +23,13 @@ class EmojiRealmDB {
     }
 
     // MARK: - Read
-    func fetchAllEmojis() -> Results<Emoji> {
+    func fetchAllEmojis() -> [Emoji] {  // Change the return type to an array of Emoji
         do {
             let realm = try Realm()
-            return realm.objects(Emoji.self)
+            return Array(realm.objects(Emoji.self))  // Convert Results to Array
         } catch {
             print("Unable to fetch emojis: \(error.localizedDescription)")
-            return Results<Emoji>()
+            return []  // Return an empty array if there's an error
         }
     }
     
