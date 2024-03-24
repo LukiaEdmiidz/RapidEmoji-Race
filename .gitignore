@@ -88,3 +88,8 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+.DS_Store
+RapidEmoji-Race/EmojiRealmDB.realm.lock
+RapidEmoji-Race/EmojiRealmDB.realm.management/access_control.control.mx
+RapidEmoji-Race/EmojiRealmDB.realm.management/access_control.versions.mx
+RapidEmoji-Race/EmojiRealmDB.realm.management/access_control.write.mx
