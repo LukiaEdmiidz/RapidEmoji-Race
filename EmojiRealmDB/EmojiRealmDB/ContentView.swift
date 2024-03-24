@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import AVFoundation  // Import for TTS functionality
 
 struct ContentView: View {
     @State private var showWord: Bool = false
     @State private var currentIndex: Int = 0
     @State private var offset: CGSize = .zero
     @State private var flashcards: [Flashcard] = []
+    
+    // Initialize the speech synthesizer
+    private let synthesizer = AVSpeechSynthesizer()
 
     var body: some View {
         VStack(spacing: 20) {
@@ -25,7 +29,7 @@ struct ContentView: View {
                                 self.offset = gesture.translation
                             }
                             .onEnded { _ in
-                                if self.offset.width > 100 || self.offset.width < -100 { // swiped
+                                if abs(self.offset.width) > 100 { // swiped
                                     self.showWord = false
                                     self.nextCard()
                                 }
