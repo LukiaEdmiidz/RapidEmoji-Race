@@ -8,8 +8,32 @@
 import Foundation
 import RealmSwift
 
-class EmojiRealmManager {  // Rename the class to match the reference in ContentView.swift
+class EmojiRealmManager {
+    private var realm: Realm
 
+    init() {
+        // Construct the file URL for the bundled Realm database
+        let fileURL = Bundle.main.url(forResource: "EmojiRealmDB", withExtension: "realm")
+
+        // Create a configuration that uses the bundled Realm file
+        let config = Realm.Configuration(fileURL: fileURL,
+                                         readOnly: false, // Set to `true` if the Realm should be read-only
+                                         schemaVersion: 1) // Use an appropriate schema version
+
+        // Initialize the Realm with the configuration
+        self.realm = try! Realm(configuration: config)
+    }
+
+    func fetchAllEmojis() -> [Emoji] {
+        do {
+            let realm = try Realm()
+            return Array(realm.objects(Emoji.self))  // Convert Results to Array
+        } catch {
+            print("Unable to fetch emojis: \(error.localizedDescription)")
+            return []  // Return an empty array on error
+        }
+    }
+    
     // MARK: - Create
     func addEmoji(_ emoji: Emoji) {
         do {
@@ -19,17 +43,6 @@ class EmojiRealmManager {  // Rename the class to match the reference in Content
             }
         } catch {
             print("Unable to add emoji: \(error.localizedDescription)")
-        }
-    }
-
-    // MARK: - Read
-    func fetchAllEmojis() -> [Emoji] {  // Change the return type to an array of Emoji
-        do {
-            let realm = try Realm()
-            return Array(realm.objects(Emoji.self))  // Convert Results to Array
-        } catch {
-            print("Unable to fetch emojis: \(error.localizedDescription)")
-            return []  // Return an empty array if there's an error
         }
     }
     

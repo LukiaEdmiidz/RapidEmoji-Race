@@ -6,24 +6,36 @@
 //
 
 import SwiftUI
-// Import RealmSwift if you're directly using Realm objects in this view
-// import RealmSwift
 
 struct ContentView: View {
-    // Initialize your EmojiRealmManager
-    private var emojiManager = EmojiRealmManager()
-
-    // State to hold your fetched emojis
-    @State private var emojis: [Emoji] = []
+    @ObservedObject private var emojiManager = EmojiRealmManagerObservable()
 
     var body: some View {
-        List(emojis, id: \.Emoji) { emoji in
-            Text(emoji.Emoji)
+        NavigationView {
+            List(emojiManager.emojis, id: \.Emoji) { emoji in
+                Text(emoji.Emoji)
+            }
+            .navigationBarTitle("Emojis", displayMode: .inline)
+            .onAppear {
+                emojiManager.fetchAllEmojis()
+            }
         }
-        .onAppear {
-            // Fetch emojis when the view appears
-            emojis = Array(emojiManager.fetchAllEmojis())
-        }
-        // Additional UI components and functionality here...
+    }
+}
+
+// Make EmojiRealmManager conform to ObservableObject for SwiftUI integration
+class EmojiRealmManagerObservable: ObservableObject {
+    @Published var emojis: [Emoji] = []
+
+    private var emojiRealmManager = EmojiRealmManager()
+
+    func fetchAllEmojis() {
+        emojis = emojiRealmManager.fetchAllEmojis()
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
     }
 }
