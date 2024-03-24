@@ -25,13 +25,9 @@ class EmojiRealmManager {
     }
 
     func fetchAllEmojis() -> [Emoji] {
-        do {
-            let realm = try Realm()
-            return Array(realm.objects(Emoji.self))  // Convert Results to Array
-        } catch {
-            print("Unable to fetch emojis: \(error.localizedDescription)")
-            return []  // Return an empty array on error
-        }
+        let emojis = Array(self.realm.objects(Emoji.self))  // Use the custom-configured Realm instance
+        print("DebugNote: Fetched \(emojis.count) emojis")
+        return emojis
     }
     
     // MARK: - Create
@@ -42,7 +38,7 @@ class EmojiRealmManager {
                 realm.add(emoji)
             }
         } catch {
-            print("Unable to add emoji: \(error.localizedDescription)")
+            print("DebugNote: Unable to add emoji: \(error.localizedDescription)")
         }
     }
     
@@ -51,7 +47,7 @@ class EmojiRealmManager {
             let realm = try Realm()
             return realm.object(ofType: Emoji.self, forPrimaryKey: emojiString)
         } catch {
-            print("Unable to fetch emoji: \(error.localizedDescription)")
+            print("DebugNote: Unable to fetch emoji: \(error.localizedDescription)")
             return nil
         }
     }
@@ -71,7 +67,7 @@ class EmojiRealmManager {
                 }
             }
         } catch {
-            print("Unable to update emoji: \(error.localizedDescription)")
+            print("DebugNote: Unable to update emoji: \(error.localizedDescription)")
         }
     }
 
@@ -85,7 +81,7 @@ class EmojiRealmManager {
                 }
             }
         } catch {
-            print("Unable to delete emoji: \(error.localizedDescription)")
+            print("DebugNote: Unable to delete emoji: \(error.localizedDescription)")
         }
     }
 }
