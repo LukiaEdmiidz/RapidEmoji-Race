@@ -43,7 +43,7 @@ struct ContentView: View {
                             }
                             // Speak the word if it's being shown
                             if self.showWord {
-                                speakText(flashcards[currentIndex].english)
+                                speakText(flashcards[currentIndex].emoji)
                             }
                         }
                     )
@@ -82,7 +82,7 @@ struct ContentView: View {
 
     func speakText(_ text: String) {
         let utterance = AVSpeechUtterance(string: text)
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        utterance.voice = AVSpeechSynthesisVoice(language: "fr-CA")
         utterance.rate = 0.5
 
         synthesizer.speak(utterance)

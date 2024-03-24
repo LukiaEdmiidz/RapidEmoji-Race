@@ -9,31 +9,50 @@ import Foundation
 import RealmSwift
 
 class EmojiRealmManager {
-    private var realm: Realm
+    private var realm: Realm?
 
-    init() {
-        // Construct the file URL for the bundled Realm database
-        let fileURL = Bundle.main.url(forResource: "EmojiRealmDB", withExtension: "realm")
+        init() {
+            do {
+                // Check if the Realm file exists in the app's Documents directory
+                let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+                let realmFileURL = documentDirectory.appendingPathComponent("EmojiRealmDB.realm")
 
-        // Create a configuration that uses the bundled Realm file
-        let config = Realm.Configuration(fileURL: fileURL,
-                                         readOnly: false, // Set to `true` if the Realm should be read-only
-                                         schemaVersion: 1) // Use an appropriate schema version
+                if !FileManager.default.fileExists(atPath: realmFileURL.path) {
+                    // If the Realm file doesn't exist in Documents, copy it from the bundle
+                    if let bundledRealmURL = Bundle.main.url(forResource: "EmojiRealmDB", withExtension: "realm") {
+                        try FileManager.default.copyItem(at: bundledRealmURL, to: realmFileURL)
+                        print("Copied Realm database to Documents directory.")
+                    }
+                }
 
-        // Initialize the Realm with the configuration
-        self.realm = try! Realm(configuration: config)
-    }
+                // Use the Realm file from the Documents directory
+                let config = Realm.Configuration(fileURL: realmFileURL, readOnly: false, schemaVersion: 1)
+                self.realm = try Realm(configuration: config)
+                print("Realm Initialized Successfully at \(realmFileURL).")
+            } catch {
+                print("Error initializing or copying Realm: \(error)")
+                self.realm = nil
+            }
+        }
+
+
 
     func fetchAllEmojis() -> [Emoji] {
-        let emojis = Array(self.realm.objects(Emoji.self))  // Use the custom-configured Realm instance
+        guard let realm = realm else {
+            print("DebugNote: Realm is not initialized.")
+            return []
+        }
+        let emojis = Array(realm.objects(Emoji.self))
         print("DebugNote: Fetched \(emojis.count) emojis")
         return emojis
     }
-    
-    // MARK: - Create
+
     func addEmoji(_ emoji: Emoji) {
+        guard let realm = realm else {
+            print("DebugNote: Realm is not initialized.")
+            return
+        }
         do {
-            let realm = try Realm()
             try realm.write {
                 realm.add(emoji)
             }
@@ -41,44 +60,48 @@ class EmojiRealmManager {
             print("DebugNote: Unable to add emoji: \(error.localizedDescription)")
         }
     }
-    
+
     func fetchEmoji(by emojiString: String) -> Emoji? {
-        do {
-            let realm = try Realm()
-            return realm.object(ofType: Emoji.self, forPrimaryKey: emojiString)
-        } catch {
-            print("DebugNote: Unable to fetch emoji: \(error.localizedDescription)")
+        guard let realm = realm else {
+            print("DebugNote: Realm is not initialized.")
             return nil
         }
+        return realm.object(ofType: Emoji.self, forPrimaryKey: emojiString)
     }
 
-    // MARK: - Update
     func updateEmoji(_ emojiString: String, newEmoji: Emoji) {
+        guard let realm = realm else {
+            print("DebugNote: Realm is not initialized.")
+            return
+        }
+        guard let emojiToUpdate = realm.object(ofType: Emoji.self, forPrimaryKey: emojiString) else {
+            print("DebugNote: Emoji to update not found.")
+            return
+        }
         do {
-            let realm = try Realm()
-            if let emojiToUpdate = realm.object(ofType: Emoji.self, forPrimaryKey: emojiString) {
-                try realm.write {
-                    emojiToUpdate.English = newEmoji.English
-                    emojiToUpdate.French = newEmoji.French
-                    emojiToUpdate.Spanish = newEmoji.Spanish
-                    emojiToUpdate.Japanese = newEmoji.Japanese
+            try realm.write {
+                emojiToUpdate.English = newEmoji.English
+                // Update other properties as needed
                     emojiToUpdate.Not_Known_Count = newEmoji.Not_Known_Count
                     emojiToUpdate.Known_Count = newEmoji.Known_Count
-                }
             }
         } catch {
             print("DebugNote: Unable to update emoji: \(error.localizedDescription)")
         }
     }
 
-    // MARK: - Delete
     func deleteEmoji(_ emojiString: String) {
+        guard let realm = realm else {
+            print("DebugNote: Realm is not initialized.")
+            return
+        }
+        guard let emojiToDelete = realm.object(ofType: Emoji.self, forPrimaryKey: emojiString) else {
+            print("DebugNote: Emoji to delete not found.")
+            return
+        }
         do {
-            let realm = try Realm()
-            if let emojiToDelete = realm.object(ofType: Emoji.self, forPrimaryKey: emojiString) {
-                try realm.write {
-                    realm.delete(emojiToDelete)
-                }
+            try realm.write {
+                realm.delete(emojiToDelete)
             }
         } catch {
             print("DebugNote: Unable to delete emoji: \(error.localizedDescription)")
