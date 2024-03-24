@@ -1,15 +1,13 @@
-# Xcode
-#
-# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+# General
+.DS_Store
+*.lock
+*.DS_Store
+**/.DS_Store
 
-## User settings
+# Xcode related
 xcuserdata/
-
-## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
 *.xcscmblueprint
 *.xccheckout
-
-## compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4)
 build/
 DerivedData/
 *.moved-aside
@@ -21,101 +19,43 @@ DerivedData/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
-
-## Obj-C/Swift specific
 *.hmap
-
-## App packaging
 *.ipa
 *.dSYM.zip
 *.dSYM
-
-## Playgrounds
 timeline.xctimeline
 playground.xcworkspace
 
 # Swift Package Manager
-#
-# Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
+.build/
 # Packages/
 # Package.pins
 # Package.resolved
-# *.xcodeproj
-#
-# Xcode automatically generates this directory with a .xcworkspacedata file and xcuserdata
-# hence it is not needed unless you have added a package configuration file to your project
-# .swiftpm
-
-.build/
+# .swiftpm/xcode/package.xcworkspace
 
 # CocoaPods
-#
-# We recommend against adding the Pods directory to your .gitignore. However
-# you should judge for yourself, the pros and cons are mentioned at:
-# https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
-#
 # Pods/
-#
-# Add this line if you want to avoid checking in source code from the Xcode workspace
-# *.xcworkspace
 
 # Carthage
-#
-# Add this line if you want to avoid checking in source code from Carthage dependencies.
-# Carthage/Checkouts
-
 Carthage/Build/
 
-# Accio dependency management
+# Accio
 Dependencies/
 .accio/
 
-# fastlane
-#
-# It is recommended to not store the screenshots in the git repo.
-# Instead, use fastlane to re-generate the screenshots whenever they are needed.
-# For more information about the recommended setup visit:
-# https://docs.fastlane.tools/best-practices/source-control/#source-control
-
+# Fastlane
 fastlane/report.xml
 fastlane/Preview.html
-fastlane/screenshots/**/*.png
+fastlane/screenshots/
 fastlane/test_output
 
 # Code Injection
-#
-# After new code Injection tools there's a generated folder /iOSInjectionProject
-# https://github.com/johnno1962/injectionforxcode
-
 iOSInjectionProject/
-*.DS_Store
-.DS_Store
-RapidEmoji-Race/EmojiRealmDB.realm.lock
-RapidEmoji-Race/EmojiRealmDB.realm.management/access_control.control.mx
-RapidEmoji-Race/EmojiRealmDB.realm.management/access_control.versions.mx
-RapidEmoji-Race/EmojiRealmDB.realm.management/access_control.write.mx
-.DS_Store
-.DS_Store
-RapidEmoji-Race/.DS_Store
-RapidEmoji-Race copy/RapidEmoji-RaceUITests/RapidEmoji_RaceUITestsLaunchTests.swift
-RapidEmoji-Race copy/RapidEmoji-RaceUITests/RapidEmoji_RaceUITests.swift
-RapidEmoji-Race copy/RapidEmoji-RaceTests/RapidEmoji_RaceTests.swift
-RapidEmoji-Race copy/RapidEmoji-Race/RapidEmoji_RaceApp.swift
-RapidEmoji-Race copy/RapidEmoji-Race/Preview Content/Preview Assets.xcassets/Contents.json
-RapidEmoji-Race copy/RapidEmoji-Race/Item.swift
-RapidEmoji-Race copy/RapidEmoji-Race/FlashcardView.swift
-RapidEmoji-Race copy/RapidEmoji-Race/Flash Card.swift
-RapidEmoji-Race copy/RapidEmoji-Race/ContentView.swift
-RapidEmoji-Race copy/RapidEmoji-Race/Assets.xcassets/Contents.json
-RapidEmoji-Race copy/RapidEmoji-Race/Assets.xcassets/AppIcon.appiconset/Contents.json
-RapidEmoji-Race copy/RapidEmoji-Race/Assets.xcassets/AccentColor.colorset/Contents.json
-RapidEmoji-Race copy/RapidEmoji-Race.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
-RapidEmoji-Race copy/RapidEmoji-Race.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
-RapidEmoji-Race copy/RapidEmoji-Race.xcodeproj/project.xcworkspace/contents.xcworkspacedata
-RapidEmoji-Race copy/RapidEmoji-Race.xcodeproj/project.pbxproj
-RapidEmoji-Race copy/EmojiRealmDB.realm.management/access_control.write.mx
-RapidEmoji-Race copy/EmojiRealmDB.realm.management/access_control.versions.mx
-RapidEmoji-Race copy/EmojiRealmDB.realm.management/access_control.control.mx
-RapidEmoji-Race copy/EmojiRealmDB.realm.lock
-RapidEmoji-Race copy/EmojiRealmDB.realm
-.DS_Store
+
+# Realm files specific to your project
+RapidEmoji-Race/**/*.control.mx
+RapidEmoji-Race/**/*.versions.mx
+RapidEmoji-Race/**/*.write.mx
+
+# Your project's specific files (seems like backup or duplicate folders)
+RapidEmoji-Race copy/
