@@ -17,11 +17,11 @@ struct FlashcardView: View {
                 .font(.system(size: 200)) // Adjust the size as desired.
                 .padding()
 
-            if showWord {  // Only show the word if showWord is true
-                Text(flashcard.english)
-                    .font(.title)
-                    .padding()
-            }
+            // if showWord {  // Only show the word if showWord is true
+            //     Text(flashcard.english)
+            //         .font(.title)
+            //         .padding()
+            // }
         }
         .padding()
     }
