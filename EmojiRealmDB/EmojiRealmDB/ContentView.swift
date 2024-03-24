@@ -36,9 +36,17 @@ struct ContentView: View {
                                 self.offset = .zero
                             }
                     )
-                    .simultaneousGesture(TapGesture().onEnded { _ in
-                        self.showWord.toggle()
-                    })
+                    .simultaneousGesture(
+                        TapGesture().onEnded {
+                            withAnimation {
+                                self.showWord.toggle()
+                            }
+                            // Speak the word if it's being shown
+                            if self.showWord {
+                                speakText(flashcards[currentIndex].english)
+                            }
+                        }
+                    )
             }
 
             // Conditionally render the word or the hint
@@ -60,11 +68,7 @@ struct ContentView: View {
     }
 
     func nextCard() {
-        if currentIndex < flashcards.count - 1 {
-            currentIndex += 1
-        } else {
-            currentIndex = 0
-        }
+        currentIndex = (currentIndex + 1) % flashcards.count
     }
 
     func loadFlashcards() {
@@ -75,10 +79,12 @@ struct ContentView: View {
         // Map your emojis to Flashcard structs
         self.flashcards = emojis.map { Flashcard(emoji: $0.Emoji, english: $0.English) }
     }
-}
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+    func speakText(_ text: String) {
+        let utterance = AVSpeechUtterance(string: text)
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        utterance.rate = 0.5
+
+        synthesizer.speak(utterance)
     }
 }
