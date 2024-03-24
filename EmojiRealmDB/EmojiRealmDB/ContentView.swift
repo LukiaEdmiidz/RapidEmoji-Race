@@ -8,28 +8,73 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject private var emojiManager = EmojiRealmManagerObservable()
+    @State private var showWord: Bool = false
+    @State private var currentIndex: Int = 0
+    @State private var offset: CGSize = .zero
+    @State private var flashcards: [Flashcard] = []
 
     var body: some View {
-        NavigationView {
-            List(emojiManager.emojis, id: \.Emoji) { emoji in
-                Text(emoji.Emoji) // Ensure this is the correct property to display
+        VStack(spacing: 20) {
+            // The emoji card
+            if !flashcards.isEmpty {
+                FlashcardView(flashcard: flashcards[currentIndex], showWord: showWord)
+                    .offset(offset)
+                    .gesture(
+                        DragGesture()
+                            .onChanged { gesture in
+                                self.offset = gesture.translation
+                            }
+                            .onEnded { _ in
+                                if self.offset.width > 100 || self.offset.width < -100 { // swiped
+                                    self.showWord = false
+                                    self.nextCard()
+                                }
+                                self.offset = .zero
+                            }
+                    )
+                    .simultaneousGesture(TapGesture().onEnded { _ in
+                        self.showWord.toggle()
+                    })
             }
-            .navigationBarTitle("Emojis")
-            .onAppear {
-                print("DebugNote: ContentView is appearing, calling fetchAllEmojis()")
-                emojiManager.fetchAllEmojis()
+
+            // Conditionally render the word or the hint
+            if showWord && !flashcards.isEmpty {
+                Text(flashcards[currentIndex].english) // Show the English word
+                    .font(.title)
+                    .padding()
+            } else {
+                Text("Tap to reveal word")
+                    .font(.subheadline)
+                    .padding()
+                    .foregroundColor(.gray)
             }
         }
+        .padding(.top, 50)  // Add padding to the top
+        .onAppear {
+            self.loadFlashcards()
+        }
+    }
+
+    func nextCard() {
+        if currentIndex < flashcards.count - 1 {
+            currentIndex += 1
+        } else {
+            currentIndex = 0
+        }
+    }
+
+    func loadFlashcards() {
+        // Instantiate your EmojiRealmManager and fetch emojis
+        let emojiManager = EmojiRealmManager()
+        let emojis = emojiManager.fetchAllEmojis()
+
+        // Map your emojis to Flashcard structs
+        self.flashcards = emojis.map { Flashcard(emoji: $0.Emoji, english: $0.English) }
     }
 }
 
-class EmojiRealmManagerObservable: ObservableObject {
-    @Published var emojis: [Emoji] = []
-    private var emojiRealmManager = EmojiRealmManager()
-
-    func fetchAllEmojis() {
-        print("DebugNote: Fetching emojis from EmojiRealmManager")
-        emojis = emojiRealmManager.fetchAllEmojis()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
     }
 }
