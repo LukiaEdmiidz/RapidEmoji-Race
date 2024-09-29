@@ -11,35 +11,33 @@ import RealmSwift
 class EmojiRealmManager {
     private var realm: Realm?
 
-        init() {
-            do {
-                // Check if the Realm file exists in the app's Documents directory
-                let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-                let realmFileURL = documentDirectory.appendingPathComponent("EmojiRealmDB.realm")
-
-                if !FileManager.default.fileExists(atPath: realmFileURL.path) {
-                    // If the Realm file doesn't exist in Documents, copy it from the bundle
-                    if let bundledRealmURL = Bundle.main.url(forResource: "EmojiRealmDB", withExtension: "realm") {
-                        try FileManager.default.copyItem(at: bundledRealmURL, to: realmFileURL)
-                        print("Copied Realm database to Documents directory.")
-                    }
-                }
-
-                // Use the Realm file from the Documents directory
-                let config = Realm.Configuration(fileURL: realmFileURL, readOnly: false, schemaVersion: 1)
-                self.realm = try Realm(configuration: config)
-                print("Realm Initialized Successfully at \(realmFileURL).")
-            } catch {
-                print("Error initializing or copying Realm: \(error)")
-                self.realm = nil
+    init() {
+        do {
+            // Attempt to find the Realm database in the app's main bundle
+            guard let bundledRealmURL = Bundle.main.url(forResource: "EmojiRealmDB", withExtension: "realm") else {
+                print("Failed to find 'EmojiRealmDB.realm' in app bundle.")
+                return
             }
+
+            // Define the configuration for Realm with the bundled Realm file
+            let config = Realm.Configuration(fileURL: bundledRealmURL, readOnly: false, schemaVersion: 1, 
+                migrationBlock: { migration, oldSchemaVersion in
+                    // Handle migrations if needed
+            })
+
+            // Initialize Realm with the configuration
+            self.realm = try Realm(configuration: config)
+            print("Realm Initialized Successfully with bundled database at: \(bundledRealmURL)")
+        } catch {
+            print("Error initializing Realm: \(error.localizedDescription)")
         }
+    }
 
 
 
     func fetchAllEmojis() -> [Emoji] {
         guard let realm = realm else {
-            print("DebugNote: Realm is not initialized.")
+            print("DebugNote: Realm is not initialized 001.")
             return []
         }
         let emojis = Array(realm.objects(Emoji.self))
@@ -49,7 +47,7 @@ class EmojiRealmManager {
 
     func addEmoji(_ emoji: Emoji) {
         guard let realm = realm else {
-            print("DebugNote: Realm is not initialized.")
+            print("DebugNote: Realm is not initialized 002.")
             return
         }
         do {
@@ -63,7 +61,7 @@ class EmojiRealmManager {
 
     func fetchEmoji(by emojiString: String) -> Emoji? {
         guard let realm = realm else {
-            print("DebugNote: Realm is not initialized.")
+            print("DebugNote: Realm is not initialized 003.")
             return nil
         }
         return realm.object(ofType: Emoji.self, forPrimaryKey: emojiString)
@@ -71,7 +69,7 @@ class EmojiRealmManager {
 
     func updateEmoji(_ emojiString: String, newEmoji: Emoji) {
         guard let realm = realm else {
-            print("DebugNote: Realm is not initialized.")
+            print("DebugNote: Realm is not initialized 004.")
             return
         }
         guard let emojiToUpdate = realm.object(ofType: Emoji.self, forPrimaryKey: emojiString) else {
@@ -92,7 +90,7 @@ class EmojiRealmManager {
 
     func deleteEmoji(_ emojiString: String) {
         guard let realm = realm else {
-            print("DebugNote: Realm is not initialized.")
+            print("DebugNote: Realm is not initialized 005.")
             return
         }
         guard let emojiToDelete = realm.object(ofType: Emoji.self, forPrimaryKey: emojiString) else {

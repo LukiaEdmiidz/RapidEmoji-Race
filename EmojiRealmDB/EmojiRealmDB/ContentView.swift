@@ -75,14 +75,14 @@ struct ContentView: View {
         // Instantiate your EmojiRealmManager and fetch emojis
         let emojiManager = EmojiRealmManager()
         let emojis = emojiManager.fetchAllEmojis()
-
-        // Map your emojis to Flashcard structs
-        self.flashcards = emojis.map { Flashcard(emoji: $0.Emoji, english: $0.English) }
+        DispatchQueue.main.async {
+            self.flashcards = emojis.map { Flashcard(emoji: $0.Emoji, english: $0.English) }
+        }
     }
 
     func speakText(_ text: String) {
         let utterance = AVSpeechUtterance(string: text)
-        utterance.voice = AVSpeechSynthesisVoice(language: "fr-CA")
+        utterance.voice = AVSpeechSynthesisVoice(language: "fr-CA") // fr-CA is the language code for French, jp-JP for Japanese, etc.
         utterance.rate = 0.5
 
         synthesizer.speak(utterance)
