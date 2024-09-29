@@ -6,16 +6,19 @@
 //
 
 import SwiftUI
-import AVFoundation  // Import for TTS functionality
+import AVFoundation
 
 struct ContentView: View {
     @State private var showWord: Bool = false
     @State private var currentIndex: Int = 0
     @State private var offset: CGSize = .zero
     @State private var flashcards: [Flashcard] = []
-    
+
     // Initialize the speech synthesizer
     private let synthesizer = AVSpeechSynthesizer()
+
+    // The language to use, passed from the StartScreenView
+    var language: String
 
     var body: some View {
         VStack(spacing: 20) {
@@ -43,9 +46,7 @@ struct ContentView: View {
                             }
                             // Speak the word if it's being shown
                             if self.showWord {
-                                // For French use 'fr-CA', for Japanese use 'ja-JP'
-                                // Pull the language from user's app settings
-                                speakText(flashcards[currentIndex].emoji,language: "en_US")
+                                speakText(flashcards[currentIndex].emoji, language: language)
                             }
                         }
                     )
