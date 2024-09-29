@@ -63,10 +63,52 @@ struct StartScreenView: View {
                             .cornerRadius(10)
                     }
                 } else {
-                    // Label to show selected language
-                    Text("You selected: \(selectedLanguage == "en-US" ? "English" : selectedLanguage == "fr-CA" ? "French" : "Japanese")")
+                    // Display the selected language in its language and make it tappable to speak
+                    Text(selectedLanguageLabel())
                         .font(.largeTitle)
                         .padding()
+                        .onTapGesture {
+                            speakText(selectedLanguageLabel(), language: selectedLanguage ?? "en-US")
+                        }
+
+                    // Show the "Hello", "Bonjour", or "こんにちは" button based on the selected language
+                    if selectedLanguage == "en-US" {
+                        Button(action: {
+                            speakText("Hello", language: "en-US")
+                        }) {
+                            Text("Hello")
+                                .font(.largeTitle)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                    } else if selectedLanguage == "fr-CA" {
+                        Button(action: {
+                            speakText("Bonjour", language: "fr-CA")
+                        }) {
+                            Text("Bonjour")
+                                .font(.largeTitle)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.green)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                    } else if selectedLanguage == "ja-JP" {
+                        Button(action: {
+                            speakText("こんにちは", language: "ja-JP")
+                        }) {
+                            Text("こんにちは")
+                                .font(.largeTitle)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.orange)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                    }
 
                     // Play Button to navigate to ContentView with the selected language
                     NavigationLink(destination: ContentView(language: selectedLanguage ?? "en-US")) {
@@ -105,5 +147,19 @@ struct StartScreenView: View {
         utterance.voice = AVSpeechSynthesisVoice(language: language)
         utterance.rate = 0.5
         synthesizer.speak(utterance)
+    }
+
+    // Function to return the selected language label in its respective language
+    func selectedLanguageLabel() -> String {
+        switch selectedLanguage {
+        case "en-US":
+            return "You selected: English"
+        case "fr-CA":
+            return "Vous avez sélectionné : Français" // French version of "You selected: French"
+        case "ja-JP":
+            return "あなたが選んだのは: 日本語" // Japanese version of "You selected: Japanese"
+        default:
+            return "You selected: English"
+        }
     }
 }
