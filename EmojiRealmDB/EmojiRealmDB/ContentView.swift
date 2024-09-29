@@ -44,6 +44,7 @@ struct ContentView: View {
                             // Speak the word if it's being shown
                             if self.showWord {
                                 // For French use 'fr-CA', for Japanese use 'ja-JP'
+                                // Pull the language from user's app settings
                                 speakText(flashcards[currentIndex].emoji,language: "en_US")
                             }
                         }
