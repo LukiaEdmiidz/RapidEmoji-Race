@@ -18,7 +18,7 @@ struct StartScreenView: View {
         NavigationView {
             VStack(spacing: 20) {
                 if showButtons {
-                    // "Hello" Button
+                    // "Hello" Button for English
                     Button(action: {
                         speakText("Hello", language: "en-US")
                         selectedLanguage = "en-US"
@@ -33,7 +33,7 @@ struct StartScreenView: View {
                             .cornerRadius(10)
                     }
 
-                    // "Bonjour" Button
+                    // "Bonjour" Button for French
                     Button(action: {
                         speakText("Bonjour", language: "fr-CA")
                         selectedLanguage = "fr-CA"
@@ -48,7 +48,7 @@ struct StartScreenView: View {
                             .cornerRadius(10)
                     }
 
-                    // "こんにちは" Button
+                    // "こんにちは" Button for Japanese
                     Button(action: {
                         speakText("こんにちは", language: "ja-JP")
                         selectedLanguage = "ja-JP"
@@ -62,6 +62,22 @@ struct StartScreenView: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
+
+                    // "你好" Button for Mandarin Chinese
+                    Button(action: {
+                        speakText("你好", language: "zh-Hant")
+                        selectedLanguage = "zh-Hant"
+                        showButtons = false
+                    }) {
+                        Text("你好")
+                            .font(.largeTitle)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.red)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+
                 } else {
                     // Display the selected language in its language and make it tappable to speak
                     Text(selectedLanguageLabel())
@@ -71,7 +87,7 @@ struct StartScreenView: View {
                             speakText(selectedLanguageLabel(), language: selectedLanguage ?? "en-US")
                         }
 
-                    // Show the "Hello", "Bonjour", or "こんにちは" button based on the selected language
+                    // Show the appropriate "Hello", "Bonjour", "こんにちは", or "你好" button based on the selected language
                     if selectedLanguage == "en-US" {
                         Button(action: {
                             speakText("Hello", language: "en-US")
@@ -105,6 +121,18 @@ struct StartScreenView: View {
                                 .padding()
                                 .frame(maxWidth: .infinity)
                                 .background(Color.orange)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                    } else if selectedLanguage == "zh-Hant" {
+                        Button(action: {
+                            speakText("你好", language: "zh-Hant")
+                        }) {
+                            Text("你好")
+                                .font(.largeTitle)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.red)
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
@@ -158,6 +186,8 @@ struct StartScreenView: View {
             return "Vous avez sélectionné : Français" // French version of "You selected: French"
         case "ja-JP":
             return "あなたが選んだのは: 日本語" // Japanese version of "You selected: Japanese"
+        case "zh-Hant":
+            return "你選擇了: 中文" // Traditional Chinese version of "You selected: Chinese"
         default:
             return "You selected: English"
         }
