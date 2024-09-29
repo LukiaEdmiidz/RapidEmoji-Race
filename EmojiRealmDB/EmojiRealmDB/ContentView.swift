@@ -43,7 +43,8 @@ struct ContentView: View {
                             }
                             // Speak the word if it's being shown
                             if self.showWord {
-                                speakText(flashcards[currentIndex].emoji)
+                                // For French use 'fr-CA', for Japanese use 'ja-JP'
+                                speakText(flashcards[currentIndex].emoji,language: "en_US")
                             }
                         }
                     )
@@ -80,9 +81,9 @@ struct ContentView: View {
         }
     }
 
-    func speakText(_ text: String) {
+    func speakText(_ text: String, language: String) {
         let utterance = AVSpeechUtterance(string: text)
-        utterance.voice = AVSpeechSynthesisVoice(language: "fr-CA") // fr-CA is the language code for French, jp-JP for Japanese, etc.
+        utterance.voice = AVSpeechSynthesisVoice(language: language)
         utterance.rate = 0.5
 
         synthesizer.speak(utterance)
