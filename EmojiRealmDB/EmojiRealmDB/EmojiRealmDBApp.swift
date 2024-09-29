@@ -11,7 +11,8 @@ import SwiftUI
 struct EmojiRealmDBApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            //ContentView()
+            StartScreenView()  
         }
     }
 }

@@ -18,6 +18,7 @@
 		908025A32BAFC1DA00CDA02E /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 908025A22BAFC1DA00CDA02E /* RealmSwift */; };
 		908025A52BAFC26500CDA02E /* EmojiRealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908025A42BAFC26500CDA02E /* EmojiRealmManager.swift */; };
 		908025A72BAFC4C900CDA02E /* EmojiRealmDB-model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908025A62BAFC4C900CDA02E /* EmojiRealmDB-model.swift */; };
+		90D154C02CA9B8A4005CDBAA /* StartScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D154BF2CA9B89F005CDBAA /* StartScreenView.swift */; };
 		90D5814A2BAFCA7300B259E9 /* EmojiRealmDB.realm in Resources */ = {isa = PBXBuildFile; fileRef = 90D581492BAFCA7300B259E9 /* EmojiRealmDB.realm */; };
 		90DEFF2D2BAFDF8700CD06A1 /* FlashcardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DEFF2C2BAFDF8600CD06A1 /* FlashcardView.swift */; };
 /* End PBXBuildFile section */
@@ -52,6 +53,7 @@
 		908025922BAFC05F00CDA02E /* EmojiRealmDBUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiRealmDBUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		908025A42BAFC26500CDA02E /* EmojiRealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiRealmManager.swift; sourceTree = "<group>"; };
 		908025A62BAFC4C900CDA02E /* EmojiRealmDB-model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EmojiRealmDB-model.swift"; sourceTree = "<group>"; };
+		90D154BF2CA9B89F005CDBAA /* StartScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScreenView.swift; sourceTree = "<group>"; };
 		90D581492BAFCA7300B259E9 /* EmojiRealmDB.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = EmojiRealmDB.realm; sourceTree = "<group>"; };
 		90DEFF2C2BAFDF8600CD06A1 /* FlashcardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlashcardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -111,6 +113,7 @@
 				908025A62BAFC4C900CDA02E /* EmojiRealmDB-model.swift */,
 				908025752BAFC05D00CDA02E /* EmojiRealmDBApp.swift */,
 				908025772BAFC05D00CDA02E /* ContentView.swift */,
+				90D154BF2CA9B89F005CDBAA /* StartScreenView.swift */,
 				908025A42BAFC26500CDA02E /* EmojiRealmManager.swift */,
 				908025792BAFC05F00CDA02E /* Assets.xcassets */,
 				9080257B2BAFC05F00CDA02E /* Preview Content */,
@@ -284,6 +287,7 @@
 				908025A72BAFC4C900CDA02E /* EmojiRealmDB-model.swift in Sources */,
 				90DEFF2D2BAFDF8700CD06A1 /* FlashcardView.swift in Sources */,
 				908025A52BAFC26500CDA02E /* EmojiRealmManager.swift in Sources */,
+				90D154C02CA9B8A4005CDBAA /* StartScreenView.swift in Sources */,
 				908025782BAFC05D00CDA02E /* ContentView.swift in Sources */,
 				908025762BAFC05D00CDA02E /* EmojiRealmDBApp.swift in Sources */,
 			);
