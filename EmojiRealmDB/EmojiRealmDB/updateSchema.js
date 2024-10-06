@@ -9,7 +9,8 @@ const EmojiSchema = {
     English: "string?",
     French: "string?",
     Spanish: "string?",
-    Japanese: "string?"
+    Japanese: "string?",
+    frequency: "int?"
   }
 };
 

@@ -9,6 +9,7 @@ class Emoji: Object {
     @objc dynamic var French: String? = nil
     @objc dynamic var Spanish: String? = nil
     @objc dynamic var Japanese: String? = nil
+    @objc dynamic var frequency: Int = 0
 
     override static func primaryKey() -> String? {
         return "Emoji"
