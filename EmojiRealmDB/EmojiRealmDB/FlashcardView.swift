@@ -30,6 +30,7 @@ struct FlashcardView: View {
 struct Flashcard {
     var emoji: String
     var english: String
+    var knownCount: Int
 }
 
 

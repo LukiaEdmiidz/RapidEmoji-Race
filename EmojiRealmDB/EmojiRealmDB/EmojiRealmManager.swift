@@ -13,7 +13,7 @@ class EmojiRealmManager {
 
     init() {
         do {
-            // Copy Realm database to Documents directory if needed (existing logic)
+            // Realm initialization code
             let fileManager = FileManager.default
             let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
             let destinationURL = documentsURL.appendingPathComponent("EmojiRealmDB.realm")
@@ -50,7 +50,6 @@ class EmojiRealmManager {
     }
 
     // Fetch emojis filtered by Known_Count <= 2 and ordered by frequency in descending order
-    // Fetch emojis filtered by Known_Count <= 2 and ordered by frequency in descending order
     func fetchFilteredEmojis() -> [Emoji] {
         guard let realm = realm else {
             print("Realm is not initialized.")
@@ -66,4 +65,45 @@ class EmojiRealmManager {
         return Array(emojis)
     }
 
+    // Increment Known_Count by 1 for a specific emoji
+    func incrementKnownCount(for emojiString: String) {
+        guard let realm = realm else {
+            print("Realm is not initialized.")
+            return
+        }
+
+        if let emojiToUpdate = realm.object(ofType: Emoji.self, forPrimaryKey: emojiString) {
+            do {
+                try realm.write {
+                    emojiToUpdate.Known_Count += 1
+                }
+                print("Incremented Known_Count for \(emojiString)")
+            } catch {
+                print("Unable to increment Known_Count: \(error.localizedDescription)")
+            }
+        } else {
+            print("Emoji not found for incrementing Known_Count.")
+        }
+    }
+
+    // Delete a specific emoji
+    func deleteEmoji(_ emojiString: String) {
+        guard let realm = realm else {
+            print("Realm is not initialized.")
+            return
+        }
+
+        if let emojiToDelete = realm.object(ofType: Emoji.self, forPrimaryKey: emojiString) {
+            do {
+                try realm.write {
+                    realm.delete(emojiToDelete)
+                }
+                print("Deleted \(emojiString) from Realm")
+            } catch {
+                print("Unable to delete emoji: \(error.localizedDescription)")
+            }
+        } else {
+            print("Emoji not found for deletion.")
+        }
+    }
 }

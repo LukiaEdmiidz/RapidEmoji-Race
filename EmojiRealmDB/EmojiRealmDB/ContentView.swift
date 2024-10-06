@@ -13,6 +13,8 @@ struct ContentView: View {
     @State private var currentIndex: Int = 0
     @State private var offset: CGSize = .zero
     @State private var flashcards: [Flashcard] = []
+    @State private var showRecycleIcon = false
+    @State private var showDeleteIcon = false
 
     // Initialize the speech synthesizer
     private let synthesizer = AVSpeechSynthesizer()
@@ -24,35 +26,67 @@ struct ContentView: View {
         VStack(spacing: 20) {
             // The emoji card
             if !flashcards.isEmpty {
-                FlashcardView(flashcard: flashcards[currentIndex], showWord: showWord)
-                    .offset(offset)
-                    .gesture(
-                        DragGesture()
-                            .onChanged { gesture in
-                                self.offset = gesture.translation
-                            }
-                            .onEnded { value in
-                                if value.translation.width > 100 { // Swiped right -> next card
-                                    self.showWord = false
-                                    self.nextCard()
-                                } else if value.translation.width < -100 { // Swiped left -> previous card
-                                    self.showWord = false
-                                    self.previousCard()
+                ZStack {
+                    FlashcardView(flashcard: flashcards[currentIndex], showWord: showWord)
+                        .offset(offset)
+                        .gesture(
+                            DragGesture()
+                                .onChanged { gesture in
+                                    self.offset = gesture.translation
+
+                                    // Handle swipe up behavior
+                                    if self.offset.height < -100 {
+                                        if flashcards[currentIndex].knownCount == 0 {
+                                            showRecycleIcon = true
+                                        } else if flashcards[currentIndex].knownCount == 1 {
+                                            showDeleteIcon = true
+                                        }
+                                    }
                                 }
-                                self.offset = .zero
+                                .onEnded { _ in
+                                    if self.offset.height < -150 { // Sufficient swipe up gesture
+                                        if flashcards[currentIndex].knownCount == 0 {
+                                            // Increment Known_Count and move to next card
+                                            incrementKnownCount(for: flashcards[currentIndex])
+                                            showRecycleIcon = false
+                                            nextCard()
+                                        } else if flashcards[currentIndex].knownCount == 1 {
+                                            // Delete the card and move to next card
+                                            deleteCard(flashcard: flashcards[currentIndex])
+                                            showDeleteIcon = false
+                                            nextCard()
+                                        }
+                                    }
+                                    self.offset = .zero
+                                    self.showRecycleIcon = false
+                                    self.showDeleteIcon = false
+                                }
+                        )
+                        .simultaneousGesture(
+                            TapGesture().onEnded {
+                                withAnimation {
+                                    self.showWord.toggle()
+                                }
+                                // Speak the word if it's being shown
+                                if self.showWord {
+                                    speakText(flashcards[currentIndex].emoji, language: language)
+                                }
                             }
-                    )
-                    .simultaneousGesture(
-                        TapGesture().onEnded {
-                            withAnimation {
-                                self.showWord.toggle()
-                            }
-                            // Speak the word if it's being shown
-                            if self.showWord {
-                                speakText(flashcards[currentIndex].emoji, language: language)
-                            }
-                        }
-                    )
+                        )
+
+                    // Show the recycle or delete icon based on Known_Count
+                    if showRecycleIcon {
+                        Text("♻️")
+                            .font(.largeTitle)
+                            .offset(x: 0, y: -150)
+                            .transition(.scale)
+                    } else if showDeleteIcon {
+                        Text("🗑️")
+                            .font(.largeTitle)
+                            .offset(x: 0, y: -150)
+                            .transition(.scale)
+                    }
+                }
             }
 
             // Conditionally render the word or the hint
@@ -75,10 +109,23 @@ struct ContentView: View {
 
     // Function to go to the next card
     func nextCard() {
-        if currentIndex < flashcards.count - 1 {
-            currentIndex += 1
-        } else {
-            currentIndex = 0  // Reset to the first card
+        currentIndex = (currentIndex + 1) % flashcards.count
+    }
+
+    // Increment the Known_Count of a flashcard
+    func incrementKnownCount(for flashcard: Flashcard) {
+        let emojiManager = EmojiRealmManager()
+        emojiManager.incrementKnownCount(for: flashcard.emoji)
+        flashcards[currentIndex].knownCount += 1
+    }
+
+    // Delete a flashcard from the Realm and the current list
+    func deleteCard(flashcard: Flashcard) {
+        let emojiManager = EmojiRealmManager()
+        emojiManager.deleteEmoji(flashcard.emoji)
+        flashcards.remove(at: currentIndex)
+        if currentIndex >= flashcards.count {
+            currentIndex = 0
         }
     }
 
@@ -95,19 +142,18 @@ struct ContentView: View {
     // Function to load the flashcards from the Realm database
     func loadFlashcards() {
         let emojiManager = EmojiRealmManager()
-        // Fetch emojis that match the filter and sorting criteria
         let emojis = emojiManager.fetchFilteredEmojis()
         DispatchQueue.main.async {
-            self.flashcards = emojis.map { Flashcard(emoji: $0.Emoji, english: $0.English) }
+            self.flashcards = emojis.map { Flashcard(emoji: $0.Emoji, english: $0.English, knownCount: $0.Known_Count) }
         }
     }
+
 
     // Function to speak the emoji in the selected language
     func speakText(_ text: String, language: String) {
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = AVSpeechSynthesisVoice(language: language)
         utterance.rate = 0.5
-
         synthesizer.speak(utterance)
     }
 }
