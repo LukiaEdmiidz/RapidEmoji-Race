@@ -50,17 +50,20 @@ class EmojiRealmManager {
     }
 
     // Fetch emojis filtered by Known_Count <= 2 and ordered by frequency in descending order
+    // Fetch emojis filtered by Known_Count <= 2 and ordered by frequency in descending order
     func fetchFilteredEmojis() -> [Emoji] {
         guard let realm = realm else {
             print("Realm is not initialized.")
             return []
         }
-        
+
         let emojis = realm.objects(Emoji.self)
             .filter("Known_Count <= 2")  // Filter to only include emojis where Known_Count is 2 or less
-            .sorted(byKeyPath: "frequency", ascending: false)  // Sort by frequency in descending order
-        
+            .sorted(byKeyPath: "frequency", ascending: true)  // Sort by frequency in descending order
+            .prefix(20)  // Only load the first 20 records
+
         print("Fetched \(emojis.count) filtered emojis from Realm")
         return Array(emojis)
     }
+
 }

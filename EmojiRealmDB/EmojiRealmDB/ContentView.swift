@@ -75,17 +75,22 @@ struct ContentView: View {
 
     // Function to go to the next card
     func nextCard() {
-        currentIndex = (currentIndex + 1) % flashcards.count
+        if currentIndex < flashcards.count - 1 {
+            currentIndex += 1
+        } else {
+            currentIndex = 0  // Reset to the first card
+        }
     }
 
     // Function to go to the previous card
     func previousCard() {
-        if currentIndex == 0 {
-            currentIndex = flashcards.count - 1 // Loop to the last card if on the first card
-        } else {
+        if currentIndex > 0 {
             currentIndex -= 1
+        } else {
+            currentIndex = flashcards.count - 1  // Loop to the last card
         }
     }
+
 
     // Function to load the flashcards from the Realm database
     func loadFlashcards() {
