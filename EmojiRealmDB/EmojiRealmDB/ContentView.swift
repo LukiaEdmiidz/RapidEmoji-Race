@@ -89,9 +89,9 @@ struct ContentView: View {
 
     // Function to load the flashcards from the Realm database
     func loadFlashcards() {
-        // Instantiate your EmojiRealmManager and fetch emojis
         let emojiManager = EmojiRealmManager()
-        let emojis = emojiManager.fetchAllEmojis()
+        // Fetch emojis that match the filter and sorting criteria
+        let emojis = emojiManager.fetchFilteredEmojis()
         DispatchQueue.main.async {
             self.flashcards = emojis.map { Flashcard(emoji: $0.Emoji, english: $0.English) }
         }

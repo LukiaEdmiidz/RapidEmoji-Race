@@ -13,7 +13,7 @@ class EmojiRealmManager {
 
     init() {
         do {
-            // Copy Realm database to Documents directory if needed
+            // Copy Realm database to Documents directory if needed (existing logic)
             let fileManager = FileManager.default
             let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
             let destinationURL = documentsURL.appendingPathComponent("EmojiRealmDB.realm")
@@ -49,27 +49,18 @@ class EmojiRealmManager {
         }
     }
 
-    func fetchAllEmojis() -> [Emoji] {
+    // Fetch emojis filtered by Known_Count <= 2 and ordered by frequency in descending order
+    func fetchFilteredEmojis() -> [Emoji] {
         guard let realm = realm else {
             print("Realm is not initialized.")
             return []
         }
-        let emojis = Array(realm.objects(Emoji.self))
-        print("Fetched \(emojis.count) emojis from Realm")
-        return emojis
-    }
-
-    func addEmoji(_ emoji: Emoji) {
-        guard let realm = realm else {
-            print("Realm is not initialized.")
-            return
-        }
-        do {
-            try realm.write {
-                realm.add(emoji)
-            }
-        } catch {
-            print("Unable to add emoji: \(error.localizedDescription)")
-        }
+        
+        let emojis = realm.objects(Emoji.self)
+            .filter("Known_Count <= 2")  // Filter to only include emojis where Known_Count is 2 or less
+            .sorted(byKeyPath: "frequency", ascending: false)  // Sort by frequency in descending order
+        
+        print("Fetched \(emojis.count) filtered emojis from Realm")
+        return Array(emojis)
     }
 }
