@@ -17,6 +17,10 @@
 		A579E3AF2AF2ECAA004BFE6A /* RapidEmoji_RaceUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A579E3AE2AF2ECAA004BFE6A /* RapidEmoji_RaceUITestsLaunchTests.swift */; };
 		A579E3BC2AF2F6B1004BFE6A /* Flash Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = A579E3BB2AF2F6B1004BFE6A /* Flash Card.swift */; };
 		A579E3C02AF2F915004BFE6A /* FlashcardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A579E3BF2AF2F915004BFE6A /* FlashcardView.swift */; };
+		A5991B9F2B1ABE5D004384B3 /* EmojiRealmDB.realm in Resources */ = {isa = PBXBuildFile; fileRef = A5991B9E2B1ABE5C004384B3 /* EmojiRealmDB.realm */; };
+		A5991BA02B1ABE5D004384B3 /* EmojiRealmDB.realm in Resources */ = {isa = PBXBuildFile; fileRef = A5991B9E2B1ABE5C004384B3 /* EmojiRealmDB.realm */; };
+		A5991BA12B1ABE5D004384B3 /* EmojiRealmDB.realm in Resources */ = {isa = PBXBuildFile; fileRef = A5991B9E2B1ABE5C004384B3 /* EmojiRealmDB.realm */; };
+		A5DECDAE2BACFDC40083A033 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A5DECDAD2BACFDC40083A033 /* RealmSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +54,7 @@
 		A579E3AE2AF2ECAA004BFE6A /* RapidEmoji_RaceUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidEmoji_RaceUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		A579E3BB2AF2F6B1004BFE6A /* Flash Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Flash Card.swift"; sourceTree = "<group>"; };
 		A579E3BF2AF2F915004BFE6A /* FlashcardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashcardView.swift; sourceTree = "<group>"; };
+		A5991B9E2B1ABE5C004384B3 /* EmojiRealmDB.realm */ = {isa = PBXFileReference; lastKnownFileType = file; path = EmojiRealmDB.realm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5DECDAE2BACFDC40083A033 /* RealmSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +90,7 @@
 				A579E3A12AF2ECAA004BFE6A /* RapidEmoji-RaceTests */,
 				A579E3AB2AF2ECAA004BFE6A /* RapidEmoji-RaceUITests */,
 				A579E38D2AF2ECA8004BFE6A /* Products */,
+				A5DECDAC2BACFDC40083A033 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -100,6 +107,7 @@
 		A579E38E2AF2ECA8004BFE6A /* RapidEmoji-Race */ = {
 			isa = PBXGroup;
 			children = (
+				A5991B9E2B1ABE5C004384B3 /* EmojiRealmDB.realm */,
 				A579E38F2AF2ECA8004BFE6A /* RapidEmoji_RaceApp.swift */,
 				A579E3912AF2ECA8004BFE6A /* ContentView.swift */,
 				A579E3932AF2ECA8004BFE6A /* Item.swift */,
@@ -136,6 +144,13 @@
 			path = "RapidEmoji-RaceUITests";
 			sourceTree = "<group>";
 		};
+		A5DECDAC2BACFDC40083A033 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -152,6 +167,9 @@
 			dependencies = (
 			);
 			name = "RapidEmoji-Race";
+			packageProductDependencies = (
+				A5DECDAD2BACFDC40083A033 /* RealmSwift */,
+			);
 			productName = "RapidEmoji-Race";
 			productReference = A579E38C2AF2ECA8004BFE6A /* RapidEmoji-Race.app */;
 			productType = "com.apple.product-type.application";
@@ -224,6 +242,9 @@
 				Base,
 			);
 			mainGroup = A579E3832AF2ECA8004BFE6A;
+			packageReferences = (
+				A5991BA22B1AC230004384B3 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
+			);
 			productRefGroup = A579E38D2AF2ECA8004BFE6A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -242,6 +263,7 @@
 			files = (
 				A579E3992AF2ECA9004BFE6A /* Preview Assets.xcassets in Resources */,
 				A579E3962AF2ECA9004BFE6A /* Assets.xcassets in Resources */,
+				A5991B9F2B1ABE5D004384B3 /* EmojiRealmDB.realm in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +271,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5991BA02B1ABE5D004384B3 /* EmojiRealmDB.realm in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +279,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5991BA12B1ABE5D004384B3 /* EmojiRealmDB.realm in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,6 +487,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RapidEmoji-Race/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = (
+					BUILD_DATE,
+					"$(CURRENT_DATE_TIME_FIXED)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -594,6 +622,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A5991BA22B1AC230004384B3 /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-cocoa";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A5DECDAD2BACFDC40083A033 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A5991BA22B1AC230004384B3 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A579E3842AF2ECA8004BFE6A /* Project object */;
 }

@@ -6,27 +6,36 @@
 //
 
 import SwiftUI
-import SwiftData
+import RealmSwift
 
 @main
-struct RapidEmoji_RaceApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+struct EmojiRaceMainApp: App {
+    init() {
+        // Initialize and potentially populate your Realm database here
+        initializeRealm()
+    }
 
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(sharedModelContainer)
+    }
+
+    func initializeRealm() {
+        do {
+            let realm = try Realm()
+            // Check if the realm is empty and if so, populate it with initial data
+            if realm.objects(Flashcard.self).isEmpty {
+                try realm.write {
+                    // Populate the realm with initial data
+                    // Example: realm.add(Flashcard(emoji: "😀", word: "Smile"))
+                }
+            }
+        } catch {
+            fatalError("Failed to initialize Realm: \(error)")
+        }
     }
 }
+
+
+

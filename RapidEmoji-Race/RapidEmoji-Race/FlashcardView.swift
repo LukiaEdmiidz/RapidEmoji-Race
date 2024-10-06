@@ -6,26 +6,24 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 struct FlashcardView: View {
-    var flashcard: Flashcard
-    var showWord: Bool  // Added this to control word display
+    var flashcard: Flashcard  // Ensure this is the Realm Object
+    var showWord: Bool
 
     var body: some View {
         VStack(spacing: 20) {
             Text(flashcard.emoji)
-                .font(.system(size: 200)) // Adjust the size as desired.
-                .padding()
-
-            if showWord {  // Only show the word if showWord is true
+                .font(.system(size: 100)) // Adjust the font size as needed
+            if showWord {
                 Text(flashcard.word)
                     .font(.title)
-                    .padding()
             }
         }
-        .padding()
     }
 }
+
 
 
 
