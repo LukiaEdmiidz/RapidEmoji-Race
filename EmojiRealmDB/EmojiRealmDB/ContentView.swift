@@ -31,10 +31,13 @@ struct ContentView: View {
                             .onChanged { gesture in
                                 self.offset = gesture.translation
                             }
-                            .onEnded { _ in
-                                if abs(self.offset.width) > 100 { // swiped
+                            .onEnded { value in
+                                if value.translation.width > 100 { // Swiped right -> next card
                                     self.showWord = false
                                     self.nextCard()
+                                } else if value.translation.width < -100 { // Swiped left -> previous card
+                                    self.showWord = false
+                                    self.previousCard()
                                 }
                                 self.offset = .zero
                             }
@@ -70,10 +73,21 @@ struct ContentView: View {
         }
     }
 
+    // Function to go to the next card
     func nextCard() {
         currentIndex = (currentIndex + 1) % flashcards.count
     }
 
+    // Function to go to the previous card
+    func previousCard() {
+        if currentIndex == 0 {
+            currentIndex = flashcards.count - 1 // Loop to the last card if on the first card
+        } else {
+            currentIndex -= 1
+        }
+    }
+
+    // Function to load the flashcards from the Realm database
     func loadFlashcards() {
         // Instantiate your EmojiRealmManager and fetch emojis
         let emojiManager = EmojiRealmManager()
@@ -83,6 +97,7 @@ struct ContentView: View {
         }
     }
 
+    // Function to speak the emoji in the selected language
     func speakText(_ text: String, language: String) {
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = AVSpeechSynthesisVoice(language: language)
