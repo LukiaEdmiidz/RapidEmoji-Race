@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  EmojiRealmDB
-//
-//  Created by Nik Edmiidz on 3/23/24.
-//
-
 import SwiftUI
 import AVFoundation
 
@@ -160,7 +153,6 @@ struct ContentView: View {
             self.flashcards = emojis.map { Flashcard(emoji: $0.Emoji, english: $0.English, knownCount: $0.Known_Count) }
         }
     }
-
 
     // Function to speak the emoji in the selected language
     func speakText(_ text: String, language: String) {
