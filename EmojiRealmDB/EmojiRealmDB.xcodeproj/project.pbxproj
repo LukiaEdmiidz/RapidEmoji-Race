@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		905CA4302CBC7FC000D2C05A /* AppIcon 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 905CA42F2CBC7FC000D2C05A /* AppIcon 2.png */; };
 		908025762BAFC05D00CDA02E /* EmojiRealmDBApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908025752BAFC05D00CDA02E /* EmojiRealmDBApp.swift */; };
 		908025782BAFC05D00CDA02E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908025772BAFC05D00CDA02E /* ContentView.swift */; };
 		9080257A2BAFC05F00CDA02E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 908025792BAFC05F00CDA02E /* Assets.xcassets */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		905CA42F2CBC7FC000D2C05A /* AppIcon 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon 2.png"; sourceTree = "<group>"; };
 		908025722BAFC05D00CDA02E /* EmojiRealmDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmojiRealmDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		908025752BAFC05D00CDA02E /* EmojiRealmDBApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiRealmDBApp.swift; sourceTree = "<group>"; };
 		908025772BAFC05D00CDA02E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				90D154BF2CA9B89F005CDBAA /* StartScreenView.swift */,
 				908025A42BAFC26500CDA02E /* EmojiRealmManager.swift */,
 				908025792BAFC05F00CDA02E /* Assets.xcassets */,
+				905CA42F2CBC7FC000D2C05A /* AppIcon 2.png */,
 				9080257B2BAFC05F00CDA02E /* Preview Content */,
 			);
 			path = EmojiRealmDB;
@@ -257,6 +260,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				905CA4302CBC7FC000D2C05A /* AppIcon 2.png in Resources */,
 				9080257D2BAFC05F00CDA02E /* Preview Assets.xcassets in Resources */,
 				9080257A2BAFC05F00CDA02E /* Assets.xcassets in Resources */,
 				90D5814A2BAFCA7300B259E9 /* EmojiRealmDB.realm in Resources */,
