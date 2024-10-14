@@ -30,7 +30,7 @@ struct ContentView: View {
                         .offset(offset) // Apply the offset for dragging
                         .gesture(
                             DragGesture()
-                                .onChanged { gesture in
+                                .onChanged({ gesture in
                                     // Update the offset while dragging
                                     self.offset = gesture.translation
 
@@ -42,8 +42,8 @@ struct ContentView: View {
                                             showDeleteIcon = true
                                         }
                                     }
-                                }
-                                .onEnded { _ in
+                                })
+                                .onEnded({ _ in
                                     if self.offset.height < -150 {
                                         if flashcards[currentIndex].knownCount == 0 {
                                             incrementKnownCount(for: flashcards[currentIndex])
@@ -64,17 +64,17 @@ struct ContentView: View {
                                     self.offset = .zero
                                     self.showRecycleIcon = false
                                     self.showDeleteIcon = false
-                                }
+                                })
                         )
                         .simultaneousGesture(
-                            TapGesture().onEnded {
+                            TapGesture().onEnded({
                                 withAnimation {
                                     self.showWord.toggle()
                                 }
                                 if self.showWord {
                                     speakText(flashcards[currentIndex].emoji, language: language)
                                 }
-                            }
+                            })
                         )
 
                     if showRecycleIcon {
@@ -107,29 +107,35 @@ struct ContentView: View {
             }
         }
         .padding(.top, 50)
-        .onAppear {
+        .onAppear(perform: {
             self.loadFlashcards()
-        }
+        })
     }
 
-    // Handle next card
+    // Function to go to the next card
     func nextCard() {
         if !flashcards.isEmpty {
             let emojiManager = EmojiRealmManager()
-            emojiManager.incrementViewed(for: flashcards[currentIndex].emoji) {
+
+            // Avoid trailing closure by explicitly passing completion closure
+            emojiManager.incrementViewed(for: flashcards[currentIndex].emoji, completion: {
                 self.loadFlashcards() // Reload flashcards after incrementing the Viewed count
-            }
+            })
+
             currentIndex = (currentIndex + 1) % flashcards.count
         }
     }
 
-    // Handle previous card
+    // Function to go to the previous card
     func previousCard() {
         if !flashcards.isEmpty {
             let emojiManager = EmojiRealmManager()
-            emojiManager.incrementViewed(for: flashcards[currentIndex].emoji) {
+
+            // Avoid trailing closure by explicitly passing completion closure
+            emojiManager.incrementViewed(for: flashcards[currentIndex].emoji, completion: {
                 self.loadFlashcards() // Reload flashcards after incrementing the Viewed count
-            }
+            })
+
             currentIndex = currentIndex > 0 ? currentIndex - 1 : flashcards.count - 1
         }
     }
@@ -156,17 +162,12 @@ struct ContentView: View {
         let emojiManager = EmojiRealmManager()
         let emojis = emojiManager.fetchFilteredEmojis()
 
-        DispatchQueue.main.async {
-            self.flashcards = emojis.map {
-                Flashcard(emoji: $0.Emoji,
-                          english: $0.English,
-                          knownCount: $0.Known_Count,
-                          frequency: $0.frequency,
-                          viewed: $0.Viewed,
-                          french: $0.French,
-                          spanish: $0.Spanish,
-                          japanese: $0.Japanese)
-            }
+        self.flashcards = emojis.map {
+            Flashcard(emoji: $0.Emoji,
+                      english: $0.English,
+                      knownCount: $0.Known_Count,
+                      frequency: $0.frequency,
+                      viewed: $0.Viewed)
         }
     }
 
