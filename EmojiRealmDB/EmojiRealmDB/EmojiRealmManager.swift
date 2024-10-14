@@ -106,7 +106,9 @@ class EmojiRealmManager {
                     emojiToUpdate.Viewed += 1
                 }
                 print("Incremented Viewed count for \(emojiString)")
-                completion?() // Safely call the closure if it exists
+                
+                // Call the completion block if provided
+                completion?()
             } catch {
                 print("Unable to increment Viewed: \(error.localizedDescription)")
             }
@@ -114,7 +116,6 @@ class EmojiRealmManager {
             print("Emoji not found for incrementing Viewed count.")
         }
     }
-
 
     // Delete a specific emoji
     func deleteEmoji(_ emojiString: String) {

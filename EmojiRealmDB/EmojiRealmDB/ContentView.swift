@@ -121,21 +121,31 @@ struct ContentView: View {
     func nextCard() {
         if !flashcards.isEmpty {
             let emojiManager = EmojiRealmManager()
-            // Increment the Viewed count, and optionally reload flashcards afterward
-            emojiManager.incrementViewed(for: flashcards[currentIndex].emoji) {
-                self.loadFlashcards() // Reload flashcards after increment, when needed
-            }
+            
+            // Increment the Viewed count with explicit completion block, avoid trailing closure
+            emojiManager.incrementViewed(for: flashcards[currentIndex].emoji, completion: {
+                DispatchQueue.main.async {
+                    self.loadFlashcards() // Reload flashcards after incrementing the Viewed count
+                }
+            })
+            
+            // Update current index
             currentIndex = (currentIndex + 1) % flashcards.count
         }
     }
 
-
     func previousCard() {
         if !flashcards.isEmpty {
             let emojiManager = EmojiRealmManager()
-            emojiManager.incrementViewed(for: flashcards[currentIndex].emoji) {
-                self.loadFlashcards() // Reload flashcards after increment
-            }
+            
+            // Increment the Viewed count with explicit completion block, avoid trailing closure
+            emojiManager.incrementViewed(for: flashcards[currentIndex].emoji, completion: {
+                DispatchQueue.main.async {
+                    self.loadFlashcards() // Reload flashcards after incrementing the Viewed count
+                }
+            })
+            
+            // Update current index
             currentIndex = currentIndex > 0 ? currentIndex - 1 : flashcards.count - 1
         }
     }
@@ -177,7 +187,6 @@ struct ContentView: View {
             }
         }
     }
-
 
     // Function to speak the emoji in the selected language
     func speakText(_ text: String, language: String) {
