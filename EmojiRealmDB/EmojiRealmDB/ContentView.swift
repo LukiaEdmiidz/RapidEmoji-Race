@@ -120,20 +120,27 @@ struct ContentView: View {
     // Function to go to the next card
     func nextCard() {
         if !flashcards.isEmpty {
+            let emojiManager = EmojiRealmManager()
+            // Increment the Viewed count, and optionally reload flashcards afterward
+            emojiManager.incrementViewed(for: flashcards[currentIndex].emoji) {
+                self.loadFlashcards() // Reload flashcards after increment, when needed
+            }
             currentIndex = (currentIndex + 1) % flashcards.count
         }
     }
 
-    // Function to go to the previous card
+
     func previousCard() {
         if !flashcards.isEmpty {
-            if currentIndex > 0 {
-                currentIndex -= 1
-            } else {
-                currentIndex = flashcards.count - 1  // Loop to the last card
+            let emojiManager = EmojiRealmManager()
+            emojiManager.incrementViewed(for: flashcards[currentIndex].emoji) {
+                self.loadFlashcards() // Reload flashcards after increment
             }
+            currentIndex = currentIndex > 0 ? currentIndex - 1 : flashcards.count - 1
         }
     }
+
+
 
     // Increment the Known_Count of a flashcard
     func incrementKnownCount(for flashcard: Flashcard) {
@@ -157,7 +164,17 @@ struct ContentView: View {
         let emojiManager = EmojiRealmManager()
         let emojis = emojiManager.fetchFilteredEmojis()
         DispatchQueue.main.async {
-            self.flashcards = emojis.map { Flashcard(emoji: $0.Emoji, english: $0.English, knownCount: $0.Known_Count, frequency: $0.frequency, viewed: $0.Viewed) }
+            // Ensure that the updated Viewed count is displayed
+            self.flashcards = emojis.map {
+                Flashcard(emoji: $0.Emoji,
+                        english: $0.English,
+                        knownCount: $0.Known_Count,
+                        frequency: $0.frequency,
+                        viewed: $0.Viewed, // Make sure the viewed value is loaded here
+                        french: $0.French,
+                        spanish: $0.Spanish,
+                        japanese: $0.Japanese)
+            }
         }
     }
 

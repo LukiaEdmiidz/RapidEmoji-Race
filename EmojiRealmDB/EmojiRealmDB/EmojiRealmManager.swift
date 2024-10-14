@@ -83,16 +83,38 @@ class EmojiRealmManager {
         if let emojiToUpdate = realm.object(ofType: Emoji.self, forPrimaryKey: emojiString) {
             do {
                 try realm.write {
-                    emojiToUpdate.Known_Count += 1
+                    emojiToUpdate.Viewed += 1
                 }
-                print("Incremented Known_Count for \(emojiString)")
+                print("Incremented Viewed for \(emojiString)")
             } catch {
-                print("Unable to increment Known_Count: \(error.localizedDescription)")
+                print("Unable to increment Viewed: \(error.localizedDescription)")
             }
         } else {
-            print("Emoji not found for incrementing Known_Count.")
+            print("Emoji not found for incrementing Viewed.")
         }
     }
+    
+    func incrementViewed(for emojiString: String, completion: (() -> Void)? = nil) {
+        guard let realm = realm else {
+            print("Realm is not initialized.")
+            return
+        }
+
+        if let emojiToUpdate = realm.object(ofType: Emoji.self, forPrimaryKey: emojiString) {
+            do {
+                try realm.write {
+                    emojiToUpdate.Viewed += 1
+                }
+                print("Incremented Viewed count for \(emojiString)")
+                completion?() // Safely call the closure if it exists
+            } catch {
+                print("Unable to increment Viewed: \(error.localizedDescription)")
+            }
+        } else {
+            print("Emoji not found for incrementing Viewed count.")
+        }
+    }
+
 
     // Delete a specific emoji
     func deleteEmoji(_ emojiString: String) {
