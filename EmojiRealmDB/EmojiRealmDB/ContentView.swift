@@ -31,7 +31,7 @@ struct ContentView: View {
                         .offset(offset)
                         .gesture(
                             DragGesture()
-                                .onChanged { gesture in
+                                .onChanged({ gesture in  // Use parentheses here
                                     self.offset = gesture.translation
 
                                     // Handle swipe up behavior
@@ -42,8 +42,8 @@ struct ContentView: View {
                                             showDeleteIcon = true
                                         }
                                     }
-                                }
-                                .onEnded { _ in
+                                })
+                                .onEnded({ _ in  // Explicitly pass closure here
                                     if self.offset.height < -150 { // Sufficient swipe up gesture
                                         if flashcards[currentIndex].knownCount == 0 {
                                             // Increment Known_Count and move to next card
@@ -66,10 +66,10 @@ struct ContentView: View {
                                     self.offset = .zero
                                     self.showRecycleIcon = false
                                     self.showDeleteIcon = false
-                                }
+                                })
                         )
                         .simultaneousGesture(
-                            TapGesture().onEnded {
+                            TapGesture().onEnded({  // Explicitly pass closure here
                                 withAnimation {
                                     self.showWord.toggle()
                                 }
@@ -77,7 +77,7 @@ struct ContentView: View {
                                 if self.showWord {
                                     speakText(flashcards[currentIndex].emoji, language: language)
                                 }
-                            }
+                            })
                         )
 
                     // Show the recycle or delete icon based on Known_Count
@@ -112,24 +112,23 @@ struct ContentView: View {
             }
         }
         .padding(.top, 50)  // Add padding to the top
-        .onAppear {
+        .onAppear(perform: {
             self.loadFlashcards()
-        }
+        })  // Avoid trailing closure in .onAppear
     }
 
     // Function to go to the next card
     func nextCard() {
         if !flashcards.isEmpty {
             let emojiManager = EmojiRealmManager()
-            
-            // Increment the Viewed count with explicit completion block, avoid trailing closure
+
+            // Increment the Viewed count and reload the flashcards afterward
             emojiManager.incrementViewed(for: flashcards[currentIndex].emoji, completion: {
                 DispatchQueue.main.async {
                     self.loadFlashcards() // Reload flashcards after incrementing the Viewed count
                 }
             })
-            
-            // Update current index
+
             currentIndex = (currentIndex + 1) % flashcards.count
         }
     }
@@ -137,20 +136,17 @@ struct ContentView: View {
     func previousCard() {
         if !flashcards.isEmpty {
             let emojiManager = EmojiRealmManager()
-            
-            // Increment the Viewed count with explicit completion block, avoid trailing closure
+
+            // Increment the Viewed count and reload the flashcards afterward
             emojiManager.incrementViewed(for: flashcards[currentIndex].emoji, completion: {
                 DispatchQueue.main.async {
                     self.loadFlashcards() // Reload flashcards after incrementing the Viewed count
                 }
             })
-            
-            // Update current index
+
             currentIndex = currentIndex > 0 ? currentIndex - 1 : flashcards.count - 1
         }
     }
-
-
 
     // Increment the Known_Count of a flashcard
     func incrementKnownCount(for flashcard: Flashcard) {
@@ -174,16 +170,15 @@ struct ContentView: View {
         let emojiManager = EmojiRealmManager()
         let emojis = emojiManager.fetchFilteredEmojis()
         DispatchQueue.main.async {
-            // Ensure that the updated Viewed count is displayed
             self.flashcards = emojis.map {
                 Flashcard(emoji: $0.Emoji,
-                        english: $0.English,
-                        knownCount: $0.Known_Count,
-                        frequency: $0.frequency,
-                        viewed: $0.Viewed, // Make sure the viewed value is loaded here
-                        french: $0.French,
-                        spanish: $0.Spanish,
-                        japanese: $0.Japanese)
+                          english: $0.English,
+                          knownCount: $0.Known_Count,
+                          frequency: $0.frequency,
+                          viewed: $0.Viewed, // Ensure the viewed value is loaded here
+                          french: $0.French,
+                          spanish: $0.Spanish,
+                          japanese: $0.Japanese)
             }
         }
     }
