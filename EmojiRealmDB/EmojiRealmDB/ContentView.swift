@@ -11,10 +11,7 @@ import AVFoundation
 struct ContentView: View {
     @State private var showWord: Bool = false
     @State private var currentIndex: Int = 0
-    @State private var offset: CGSize = .zero
     @State private var flashcards: [Flashcard] = []
-    @State private var showRecycleIcon = false
-    @State private var showDeleteIcon = false
 
     // Initialize the speech synthesizer
     private let synthesizer = AVSpeechSynthesizer()
@@ -28,70 +25,8 @@ struct ContentView: View {
             if !flashcards.isEmpty {
                 ZStack {
                     FlashcardView(flashcard: flashcards[currentIndex], showWord: showWord)
-                        .offset(offset)
-                        .gesture(
-                            DragGesture()
-                                .onChanged({ gesture in  // Use parentheses here
-                                    self.offset = gesture.translation
 
-                                    // Handle swipe up behavior
-                                    if self.offset.height < -100 {
-                                        if flashcards[currentIndex].knownCount == 0 {
-                                            showRecycleIcon = true
-                                        } else if flashcards[currentIndex].knownCount == 1 {
-                                            showDeleteIcon = true
-                                        }
-                                    }
-                                })
-                                .onEnded({ _ in  // Explicitly pass closure here
-                                    if self.offset.height < -150 { // Sufficient swipe up gesture
-                                        if flashcards[currentIndex].knownCount == 0 {
-                                            // Increment Known_Count and move to next card
-                                            incrementKnownCount(for: flashcards[currentIndex])
-                                            showRecycleIcon = false
-                                            nextCard()
-                                        } else if flashcards[currentIndex].knownCount == 1 {
-                                            // Delete the card and move to next card
-                                            deleteCard(flashcard: flashcards[currentIndex])
-                                            showDeleteIcon = false
-                                            nextCard()
-                                        }
-                                    } else if self.offset.width > 100 { // Swiped right -> next card
-                                        showWord = false
-                                        nextCard()
-                                    } else if self.offset.width < -100 { // Swiped left -> previous card
-                                        showWord = false
-                                        previousCard()
-                                    }
-                                    self.offset = .zero
-                                    self.showRecycleIcon = false
-                                    self.showDeleteIcon = false
-                                })
-                        )
-                        .simultaneousGesture(
-                            TapGesture().onEnded({  // Explicitly pass closure here
-                                withAnimation {
-                                    self.showWord.toggle()
-                                }
-                                // Speak the word if it's being shown
-                                if self.showWord {
-                                    speakText(flashcards[currentIndex].emoji, language: language)
-                                }
-                            })
-                        )
-
-                    // Show the recycle or delete icon based on Known_Count
-                    if showRecycleIcon {
-                        Text("♻️")
-                            .font(.largeTitle)
-                            .offset(x: 0, y: -150)
-                            .transition(.scale)
-                    } else if showDeleteIcon {
-                        Text("🗑️")
-                            .font(.largeTitle)
-                            .offset(x: 0, y: -150)
-                            .transition(.scale)
-                    }
+                    // No gestures here for now
                 }
             } else {
                 Text("No more flashcards to display")
@@ -112,9 +47,9 @@ struct ContentView: View {
             }
         }
         .padding(.top, 50)  // Add padding to the top
-        .onAppear(perform: {
+        .onAppear {
             self.loadFlashcards()
-        })  // Avoid trailing closure in .onAppear
+        }
     }
 
     // Function to go to the next card
@@ -122,11 +57,9 @@ struct ContentView: View {
         if !flashcards.isEmpty {
             let emojiManager = EmojiRealmManager()
 
-            // Increment the Viewed count and reload the flashcards afterward
+            // Explicitly pass the closure
             emojiManager.incrementViewed(for: flashcards[currentIndex].emoji, completion: {
-                DispatchQueue.main.async {
-                    self.loadFlashcards() // Reload flashcards after incrementing the Viewed count
-                }
+                self.loadFlashcards() // Try without DispatchQueue.main.async for now
             })
 
             currentIndex = (currentIndex + 1) % flashcards.count
@@ -137,11 +70,9 @@ struct ContentView: View {
         if !flashcards.isEmpty {
             let emojiManager = EmojiRealmManager()
 
-            // Increment the Viewed count and reload the flashcards afterward
+            // Explicitly pass the closure
             emojiManager.incrementViewed(for: flashcards[currentIndex].emoji, completion: {
-                DispatchQueue.main.async {
-                    self.loadFlashcards() // Reload flashcards after incrementing the Viewed count
-                }
+                self.loadFlashcards() // Try without DispatchQueue.main.async for now
             })
 
             currentIndex = currentIndex > 0 ? currentIndex - 1 : flashcards.count - 1
@@ -169,17 +100,14 @@ struct ContentView: View {
     func loadFlashcards() {
         let emojiManager = EmojiRealmManager()
         let emojis = emojiManager.fetchFilteredEmojis()
-        DispatchQueue.main.async {
-            self.flashcards = emojis.map {
-                Flashcard(emoji: $0.Emoji,
-                          english: $0.English,
-                          knownCount: $0.Known_Count,
-                          frequency: $0.frequency,
-                          viewed: $0.Viewed, // Ensure the viewed value is loaded here
-                          french: $0.French,
-                          spanish: $0.Spanish,
-                          japanese: $0.Japanese)
-            }
+
+        // Remove DispatchQueue.main.async for now
+        self.flashcards = emojis.map {
+            Flashcard(emoji: $0.Emoji,
+                      english: $0.English,
+                      knownCount: $0.Known_Count,
+                      frequency: $0.frequency,
+                      viewed: $0.Viewed)
         }
     }
 
