@@ -1,0 +1,100 @@
+//
+//  QuizView
+//  EmojiRealmDB
+//
+//  Created by Nik Edmiidz on 10/13/24.
+// The game mode aims to test and reinforce the user's vocabulary knowledge in a timed, engaging manner. Players will be presented with a speaker emoji, and pressed to speak the hidden emoji out loud. Then it shows the hidden emoji with 3 other emoji below (ordred randomly) .
+// The player will have to select the correct emoji to score a point. The game will continue until the timer runs out, or the player gets a certain number of questions wrong.
+
+
+import SwiftUI
+import AVFoundation
+
+struct  QuizView: View {
+    @State private var emojis = [Emoji]()
+    @State private var emojiToGuess: Emoji?
+    @State private var score = 0
+    @State private var isCorrect = false
+    @State private var isWrong = false
+    @State private var isGameOver = false
+    @State private var isGameWon = false
+    @State private var isGameLost = false
+    @State private var timer: Timer?
+    @State private var timeRemaining = 60
+    @State private var isTimerActive = false
+    @State private var isTimerPaused = false
+    @State private var isTimerStopped = false
+    @State private var isTimerFinished = false
+    @State private var isTimerCancelled = false
+    @State private var isTimerReset = false
+    @State private var isTimerRestarted = false
+    @State private var isTimerResumed = false
+    @State private var isTimerStarted = false
+    @State private var isTimerSuspended = false
+    @State private var isTimerInvalidated = false
+    @State private var isTimerFired = false
+    @State private var isTimerTicked = false
+    @State private var isTimerUpdated = false
+    @State private var isTimerRefreshed = false
+    @State private var isTimerReactivated = false
+    @State private var isTimerReinitialized = false
+    @State private var isTimerRecreated = false
+    
+    private let synthesizer = AVSpeechSynthesizer() 
+
+    var language: String
+
+    var body: some View {
+        VStack {
+            if isGameOver {
+                GameOverView(score: score, isGameWon: isGameWon, isGameLost: isGameLost)
+            } else {
+                VStack {
+                    Text("Score: \(score)")
+                        .font(.title)
+                        .padding()
+                    Text("Time: \(timeRemaining)")
+                        .font(.title)
+                        .padding()
+                    if let emojiToGuess = emojiToGuess {
+                        Text(emojiToGuess.emoji)
+                            .font(.system(size: 100))
+                            .padding()
+                        ForEach(emojis.shuffled()) { emoji in
+                            Button(action: {
+                                if emoji == emojiToGuess {
+                                    score += 1
+                                    isCorrect = true
+                                } else {
+                                    isWrong = true
+                                }
+                                nextQuestion()
+                            }) {
+                                Text(emoji.emoji)
+                                    .font(.system(size: 100))
+                                    .padding()
+                            }
+                        }
+                    }
+                }
+                .onAppear(perform: startGame)
+                .onDisappear(perform: stopGame)
+                .alert(isPresented: $isCorrect) {
+                    Alert(title: Text("Correct!"), message: Text("You got it right!"), dismissButton: .default(Text("Continue")) {
+                        nextQuestion()
+                    })
+                }
+                .alert(isPresented: $isWrong) {
+                    Alert(title: Text("Wrong!"), message: Text("You got it wrong!"), dismissButton: .default(Text("Continue")) {
+                        nextQuestion()
+                    })
+                }
+            }
+        }
+    }
+
+
+}
+
+
+

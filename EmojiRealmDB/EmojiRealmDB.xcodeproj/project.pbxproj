@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		905CA4302CBC7FC000D2C05A /* AppIcon 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 905CA42F2CBC7FC000D2C05A /* AppIcon 2.png */; };
+		905CA4322CBCED9800D2C05A /* QuizView in Resources */ = {isa = PBXBuildFile; fileRef = 905CA4312CBCED8F00D2C05A /* QuizView */; };
 		908025762BAFC05D00CDA02E /* EmojiRealmDBApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908025752BAFC05D00CDA02E /* EmojiRealmDBApp.swift */; };
 		908025782BAFC05D00CDA02E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908025772BAFC05D00CDA02E /* ContentView.swift */; };
 		9080257A2BAFC05F00CDA02E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 908025792BAFC05F00CDA02E /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		905CA42F2CBC7FC000D2C05A /* AppIcon 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon 2.png"; sourceTree = "<group>"; };
+		905CA4312CBCED8F00D2C05A /* QuizView */ = {isa = PBXFileReference; lastKnownFileType = text; path = QuizView; sourceTree = "<group>"; };
 		908025722BAFC05D00CDA02E /* EmojiRealmDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmojiRealmDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		908025752BAFC05D00CDA02E /* EmojiRealmDBApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiRealmDBApp.swift; sourceTree = "<group>"; };
 		908025772BAFC05D00CDA02E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 		908025742BAFC05D00CDA02E /* EmojiRealmDB */ = {
 			isa = PBXGroup;
 			children = (
+				905CA4312CBCED8F00D2C05A /* QuizView */,
 				90DEFF2C2BAFDF8600CD06A1 /* FlashcardView.swift */,
 				90D581492BAFCA7300B259E9 /* EmojiRealmDB.realm */,
 				908025A62BAFC4C900CDA02E /* EmojiRealmDB-model.swift */,
@@ -262,6 +265,7 @@
 			files = (
 				905CA4302CBC7FC000D2C05A /* AppIcon 2.png in Resources */,
 				9080257D2BAFC05F00CDA02E /* Preview Assets.xcassets in Resources */,
+				905CA4322CBCED9800D2C05A /* QuizView in Resources */,
 				9080257A2BAFC05F00CDA02E /* Assets.xcassets in Resources */,
 				90D5814A2BAFCA7300B259E9 /* EmojiRealmDB.realm in Resources */,
 			);

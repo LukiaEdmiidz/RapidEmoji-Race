@@ -149,6 +149,17 @@ struct StartScreenView: View {
                             .cornerRadius(10)
                     }
 
+                    // Quiz Button to navigate to QuizView with the selected language
+                    NavigationLink(destination: QuizView(language: selectedLanguage ?? "en-US")) {
+                        Text("Quiz")
+                            .font(.title)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+
                     // Return Button to go back to StartScreenView
                     Button(action: {
                         selectedLanguage = nil
