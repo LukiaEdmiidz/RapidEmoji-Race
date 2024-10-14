@@ -9,7 +9,7 @@ const EmojiSchema = {
     Emoji: 'string',         // The emoji itself is the primary key and a string
     Not_Known_Count: 'int',  // Integer field
     Known_Count: 'int',      // Integer field
-    English: 'string',       // Required string field (non-optional, as seen in error)
+    English: 'string?',      // Optional string field (migration will handle optional/required)
     French: 'string?',       // Optional string field
     Spanish: 'string?',      // Optional string field
     Japanese: 'string?',     // Optional string field
@@ -18,17 +18,29 @@ const EmojiSchema = {
   }
 };
 
-// Helper function to open Realm with the correct schema
+// Helper function to open Realm with the correct schema and handle migration
 async function openRealmWithSchemaVersion() {
   let realm;
 
   try {
-    console.log('Opening Realm with schema version 2 and provided schema');
-    // Open Realm with schema version 2 and include the Emoji schema
+    console.log('Opening Realm with schema version 4, migration allowed');
+    // Open Realm with schema version 4 and handle migration
     realm = await Realm.open({
       path: path.resolve(__dirname, 'EmojiRealmDB.realm'),
       schema: [EmojiSchema], // Include the existing schema for the Emoji table
-      schemaVersion: 2,      // Set the schema version to match the file version
+      schemaVersion: 4,      // Set the schema version to match the file version (version 4)
+      migration: (oldRealm, newRealm) => {
+        const oldObjects = oldRealm.objects('Emoji');
+        const newObjects = newRealm.objects('Emoji');
+
+        // Migration logic: Handle optional/required changes
+        for (let i = 0; i < oldObjects.length; i++) {
+          // Ensure English is not null
+          if (newObjects[i].English === null) {
+            newObjects[i].English = ''; // Set default value for English if it was null
+          }
+        }
+      }
     });
 
     return realm; // Successfully opened the Realm
@@ -39,7 +51,7 @@ async function openRealmWithSchemaVersion() {
 
 async function getFirst10Emojis() {
   try {
-    // Open the Realm with schema version 2
+    // Open the Realm with schema version 4
     const realm = await openRealmWithSchemaVersion();
 
     // Query the first 10 objects in the Emoji table
