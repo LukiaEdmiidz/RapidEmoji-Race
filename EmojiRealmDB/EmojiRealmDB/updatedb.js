@@ -26,17 +26,27 @@ async function updateEmojiViewed() {
     realm = await Realm.open({
       schema: [EmojiSchema],
       path: realmPath,
-      schemaVersion: 3,
+      schemaVersion: 4,  // Increment schema version to ensure migration is applied
       migration: (oldRealm, newRealm) => {
         const oldObjects = oldRealm.objects("Emoji");
         const newObjects = newRealm.objects("Emoji");
 
         for (let i = 0; i < oldObjects.length; i++) {
-          newObjects[i].English = oldObjects[i].English;
-          newObjects[i].Viewed = oldObjects[i].Viewed ?? 0;
-          newObjects[i].Not_Known_Count = oldObjects[i].Not_Known_Count ?? 0;
-          newObjects[i].Known_Count = oldObjects[i].Known_Count ?? 0;
-          newObjects[i].frequency = oldObjects[i].frequency ?? 0;
+          let oldObject = oldObjects[i];
+          let newObject = newObjects[i];
+
+          // Set each property explicitly during migration
+          newObject.Emoji = oldObject.Emoji;
+          newObject.Not_Known_Count = oldObject.Not_Known_Count ?? 0;
+          newObject.Known_Count = oldObject.Known_Count ?? 0;
+          newObject.English = oldObject.English;
+          newObject.French = oldObject.French;
+          newObject.Spanish = oldObject.Spanish;
+          newObject.Japanese = oldObject.Japanese;
+          newObject.frequency = oldObject.frequency ?? 0;
+          newObject.Viewed = 0;  // Explicitly set `Viewed` to 0 for all records
+
+          console.log(`Migrated Emoji: ${newObject.Emoji}, Viewed set to: ${newObject.Viewed}`);
         }
       },
     });
@@ -48,16 +58,25 @@ async function updateEmojiViewed() {
       const emojis = realm.objects("Emoji");
       for (let emoji of emojis) {
         emoji.Viewed = 0;
+        console.log(`Setting ${emoji.Emoji} Viewed to 0`);
       }
+      console.log("Committing write transaction...");
     });
+
+    // Verify updated values
+    const updatedEmojis = realm.objects("Emoji");
+    for (let emoji of updatedEmojis) {
+      console.log(`Verified ${emoji.Emoji} Viewed value after write: ${emoji.Viewed}`);
+    }
 
     console.log("Successfully reset all 'Viewed' values to 0.");
 
   } catch (error) {
     console.error("Failed to update 'Viewed' field:", error);
   } finally {
-    if (realm) {
+    if (realm && !realm.isClosed) {
       realm.close();
+      console.log("Realm instance closed properly.");
     }
   }
 }

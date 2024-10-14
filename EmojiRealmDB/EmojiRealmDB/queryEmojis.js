@@ -1,64 +1,59 @@
-const Realm = require("realm");
-const path = require("path");
+const Realm = require('realm');
+const path = require('path');
 
-// Define the Emoji schema
+// Define the schema exactly as it appears in the Realm file
 const EmojiSchema = {
-  name: "Emoji",
+  name: 'Emoji',
+  primaryKey: 'Emoji',  // 'Emoji' is the primary key
   properties: {
-    Emoji: "string",
-    Not_Known_Count: { type: "int", default: 0 },
-    Known_Count: { type: "int", default: 0 },
-    English: "string?",
-    French: "string?",
-    Spanish: "string?",
-    Japanese: "string?",
-    frequency: { type: "int", default: 0 },
-    Viewed: { type: "int", optional: true, default: 0 },
-  },
-  primaryKey: "Emoji",
+    Emoji: 'string',         // The emoji itself is the primary key and a string
+    Not_Known_Count: 'int',  // Integer field
+    Known_Count: 'int',      // Integer field
+    English: 'string',       // Required string field (non-optional, as seen in error)
+    French: 'string?',       // Optional string field
+    Spanish: 'string?',      // Optional string field
+    Japanese: 'string?',     // Optional string field
+    frequency: 'int',        // Integer field
+    Viewed: 'int?'           // Optional integer field
+  }
 };
 
-async function queryFirstTenRecords() {
-  const realmPath = path.join(__dirname, "EmojiRealmDB.realm");
+// Helper function to open Realm with the correct schema
+async function openRealmWithSchemaVersion() {
+  let realm;
 
   try {
-    // Get the current schema version
-    const currentSchemaVersion = await Realm.schemaVersion(realmPath);
-    console.log(`Current schema version: ${currentSchemaVersion}`);
-
-    // Open the Realm with the current schema version
-    const realm = await Realm.open({
-      schema: [EmojiSchema],
-      path: realmPath,
-      schemaVersion: currentSchemaVersion,
+    console.log('Opening Realm with schema version 2 and provided schema');
+    // Open Realm with schema version 2 and include the Emoji schema
+    realm = await Realm.open({
+      path: path.resolve(__dirname, 'EmojiRealmDB.realm'),
+      schema: [EmojiSchema], // Include the existing schema for the Emoji table
+      schemaVersion: 2,      // Set the schema version to match the file version
     });
 
-    const emojis = realm.objects("Emoji");
-    const firstTen = emojis.slice(0, 10);
-
-    console.log("First 10 Emoji records:");
-    firstTen.forEach((emoji, index) => {
-      console.log(`\nRecord ${index + 1}:`);
-      console.log(`Emoji: ${emoji.Emoji}`);
-      console.log(`English: ${emoji.English || 'N/A'}`);
-      console.log(`Not Known Count: ${emoji.Not_Known_Count}`);
-      console.log(`Known Count: ${emoji.Known_Count}`);
-      console.log(`Frequency: ${emoji.frequency}`);
-      console.log(`Viewed: ${emoji.Viewed}`);
-    });
-
-    console.log(`\nTotal number of records: ${emojis.length}`);
-
-    // Close the Realm when done
-    realm.close();
-
+    return realm; // Successfully opened the Realm
   } catch (error) {
-    console.error("Failed to query records:", error);
+    throw new Error(`Failed to open Realm: ${error.message}`);
   }
 }
 
-queryFirstTenRecords().then(() => {
-  console.log("Query completed.");
-}).catch((error) => {
-  console.error("Error in query process:", error);
-});
+async function getFirst10Emojis() {
+  try {
+    // Open the Realm with schema version 2
+    const realm = await openRealmWithSchemaVersion();
+
+    // Query the first 10 objects in the Emoji table
+    const emojis = realm.objects('Emoji').slice(0, 10);
+
+    // Log the result
+    emojis.forEach((emoji, index) => {
+      console.log(`Emoji ${index + 1}: ${JSON.stringify(emoji)}`);
+    });
+
+    realm.close(); // Close the Realm after querying
+  } catch (err) {
+    console.error('Error reading the Realm database:', err);
+  }
+}
+
+getFirst10Emojis();
