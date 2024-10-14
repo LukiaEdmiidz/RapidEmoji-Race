@@ -16,6 +16,19 @@ struct FlashcardView: View {
             Text(flashcard.emoji)
                 .font(.system(size: 200)) // Adjust the size as desired.
                 .padding()
+                Text("Known Count: \(flashcard.knownCount)")
+                    .font(.title3) // Smaller font size
+                    .padding(.bottom, 5) // Adjust padding as needed
+                
+                Text("Frequency: \(flashcard.frequency)")
+                    .font(.body) // Smaller font size
+                    .padding(.bottom, 5) // Adjust padding as needed
+
+                Text("Viewed: \(flashcard.viewed)")
+                    .font(.body) // Smaller font size
+                    .padding(.bottom, 5) // Adjust padding as needed
+
+
 
             // if showWord {  // Only show the word if showWord is true
             //     Text(flashcard.english)
@@ -31,6 +44,8 @@ struct Flashcard {
     var emoji: String
     var english: String
     var knownCount: Int
+    var frequency: Int
+    var viewed: Int
 }
 
 

@@ -35,11 +35,19 @@ class EmojiRealmManager {
             }
 
             // Define the configuration for Realm with the copied file in the Documents directory
-            let config = Realm.Configuration(fileURL: destinationURL, readOnly: false, schemaVersion: 1,
+            let config = Realm.Configuration(
+                fileURL: destinationURL,
+                schemaVersion: 6,  // Increment this schema version if it was previously 5
                 migrationBlock: { migration, oldSchemaVersion in
-                    // Handle migrations if needed
-                    print("Migrating Realm database from version \(oldSchemaVersion)")
-            })
+                    if oldSchemaVersion < 6 {
+                        // Apply any necessary migrations
+                        migration.enumerateObjects(ofType: Emoji.className()) { oldObject, newObject in
+                            newObject?["Viewed"] = 0 // Set default value for Viewed
+                        }
+                    }
+                }
+            )
+
 
             // Initialize Realm with the configuration
             self.realm = try Realm(configuration: config)

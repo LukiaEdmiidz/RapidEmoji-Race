@@ -157,7 +157,7 @@ struct ContentView: View {
         let emojiManager = EmojiRealmManager()
         let emojis = emojiManager.fetchFilteredEmojis()
         DispatchQueue.main.async {
-            self.flashcards = emojis.map { Flashcard(emoji: $0.Emoji, english: $0.English, knownCount: $0.Known_Count) }
+            self.flashcards = emojis.map { Flashcard(emoji: $0.Emoji, english: $0.English, knownCount: $0.Known_Count, frequency: $0.frequency, viewed: $0.Viewed) }
         }
     }
 
