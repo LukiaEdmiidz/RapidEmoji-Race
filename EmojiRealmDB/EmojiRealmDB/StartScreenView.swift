@@ -13,6 +13,7 @@ struct StartScreenView: View {
     @State private var selectedLanguage: String? = nil
     @State private var showButtons = true
     private let synthesizer = AVSpeechSynthesizer()
+    private let appVersion = "20241205001" // Define the version number
 
     var body: some View {
         NavigationView {
@@ -79,7 +80,6 @@ struct StartScreenView: View {
                     }
 
                 } else {
-                    // Display the selected language in its language and make it tappable to speak
                     Text(selectedLanguageLabel())
                         .font(.largeTitle)
                         .padding()
@@ -87,7 +87,6 @@ struct StartScreenView: View {
                             speakText(selectedLanguageLabel(), language: selectedLanguage ?? "en-US")
                         }
 
-                    // Show the appropriate "Hello", "Bonjour", "こんにちは", or "你好" button based on the selected language
                     if selectedLanguage == "en-US" {
                         Button(action: {
                             speakText("Hello", language: "en-US")
@@ -138,7 +137,6 @@ struct StartScreenView: View {
                         }
                     }
 
-                    // Play Button to navigate to ContentView with the selected language
                     NavigationLink(destination: ContentView(language: selectedLanguage ?? "en-US")) {
                         Text("Play")
                             .font(.title)
@@ -149,7 +147,6 @@ struct StartScreenView: View {
                             .cornerRadius(10)
                     }
 
-                    // Return Button to go back to StartScreenView
                     Button(action: {
                         selectedLanguage = nil
                         showButtons = true
@@ -163,13 +160,18 @@ struct StartScreenView: View {
                             .cornerRadius(10)
                     }
                 }
+
+                // Display the version number at the bottom
+                Spacer()
+                Text("Version: \(appVersion)")
+                    .font(.footnote)
+                    .foregroundColor(.gray)
             }
             .padding()
             .navigationTitle("Welcome")
         }
     }
 
-    // Function to speak the text in the chosen language
     func speakText(_ text: String, language: String) {
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = AVSpeechSynthesisVoice(language: language)
@@ -177,17 +179,16 @@ struct StartScreenView: View {
         synthesizer.speak(utterance)
     }
 
-    // Function to return the selected language label in its respective language
     func selectedLanguageLabel() -> String {
         switch selectedLanguage {
         case "en-US":
             return "You selected: English"
         case "fr-CA":
-            return "Vous avez sélectionné : Français" // French version of "You selected: French"
+            return "Vous avez sélectionné : Français"
         case "ja-JP":
-            return "あなたが選んだのは: 日本語" // Japanese version of "You selected: Japanese"
+            return "あなたが選んだのは: 日本語"
         case "zh-Hant":
-            return "你選擇了: 中文" // Traditional Chinese version of "You selected: Chinese"
+            return "你選擇了: 中文"
         default:
             return "You selected: English"
         }

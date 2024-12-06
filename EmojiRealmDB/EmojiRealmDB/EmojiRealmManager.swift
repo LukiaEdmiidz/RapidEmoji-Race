@@ -13,7 +13,7 @@ class EmojiRealmManager {
 
     init() {
         do {
-            // Copy Realm database to Documents directory if needed
+            // Realm initialization code
             let fileManager = FileManager.default
             let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
             let destinationURL = documentsURL.appendingPathComponent("EmojiRealmDB.realm")
@@ -35,11 +35,19 @@ class EmojiRealmManager {
             }
 
             // Define the configuration for Realm with the copied file in the Documents directory
-            let config = Realm.Configuration(fileURL: destinationURL, readOnly: false, schemaVersion: 1,
+            let config = Realm.Configuration(
+                fileURL: destinationURL,
+                schemaVersion: 6,  // Increment this schema version if it was previously 5
                 migrationBlock: { migration, oldSchemaVersion in
-                    // Handle migrations if needed
-                    print("Migrating Realm database from version \(oldSchemaVersion)")
-            })
+                    if oldSchemaVersion < 6 {
+                        // Apply any necessary migrations
+                        migration.enumerateObjects(ofType: Emoji.className()) { oldObject, newObject in
+                            newObject?["Viewed"] = 0 // Set default value for Viewed
+                        }
+                    }
+                }
+            )
+
 
             // Initialize Realm with the configuration
             self.realm = try Realm(configuration: config)
@@ -49,27 +57,88 @@ class EmojiRealmManager {
         }
     }
 
-    func fetchAllEmojis() -> [Emoji] {
+    // Fetch emojis filtered by Known_Count <= 2 and ordered by frequency in descending order
+    func fetchFilteredEmojis() -> [Emoji] {
         guard let realm = realm else {
             print("Realm is not initialized.")
             return []
         }
-        let emojis = Array(realm.objects(Emoji.self))
-        print("Fetched \(emojis.count) emojis from Realm")
-        return emojis
+
+        let emojis = realm.objects(Emoji.self)
+            .filter("Known_Count <= 2")  // Filter to only include emojis where Known_Count is 2 or less
+            .sorted(byKeyPath: "frequency", ascending: true)  // Sort by frequency in descending order
+            .prefix(20)  // Only load the first 20 records
+
+        print("Fetched \(emojis.count) filtered emojis from Realm")
+        return Array(emojis)
     }
 
-    func addEmoji(_ emoji: Emoji) {
+    // Increment Known_Count by 1 for a specific emoji
+    func incrementKnownCount(for emojiString: String) {
         guard let realm = realm else {
             print("Realm is not initialized.")
             return
         }
-        do {
-            try realm.write {
-                realm.add(emoji)
+
+        if let emojiToUpdate = realm.object(ofType: Emoji.self, forPrimaryKey: emojiString) {
+            do {
+                try realm.write {
+                    emojiToUpdate.Viewed += 1
+                }
+                print("Incremented Viewed for \(emojiString)")
+            } catch {
+                print("Unable to increment Viewed: \(error.localizedDescription)")
             }
-        } catch {
-            print("Unable to add emoji: \(error.localizedDescription)")
+        } else {
+            print("Emoji not found for incrementing Viewed.")
+        }
+    }
+    
+    func incrementViewed(for emojiString: String, completion: (() -> Void)? = nil) {
+        guard let realm = realm else {
+            print("Realm is not initialized.")
+            return
+        }
+
+        if let emojiToUpdate = realm.object(ofType: Emoji.self, forPrimaryKey: emojiString) {
+            do {
+                try realm.write {
+                    emojiToUpdate.Viewed += 1
+                }
+                print("Incremented Viewed count for \(emojiString)")
+                
+                // Call the completion closure if it is provided
+                if let completion = completion {
+                    completion()
+                }
+            } catch {
+                print("Unable to increment Viewed: \(error.localizedDescription)")
+            }
+        } else {
+            print("Emoji not found for incrementing Viewed count.")
+        }
+    }
+
+
+
+    // Delete a specific emoji
+    func deleteEmoji(_ emojiString: String) {
+        guard let realm = realm else {
+            print("Realm is not initialized.")
+            return
+        }
+
+        if let emojiToDelete = realm.object(ofType: Emoji.self, forPrimaryKey: emojiString) {
+            do {
+                try realm.write {
+                    realm.delete(emojiToDelete)
+                }
+                print("Deleted \(emojiString) from Realm")
+            } catch {
+                print("Unable to delete emoji: \(error.localizedDescription)")
+            }
+        } else {
+            print("Emoji not found for deletion.")
         }
     }
 }
