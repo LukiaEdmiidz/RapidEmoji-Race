@@ -83,7 +83,8 @@ class EmojiRealmManager {
         if let emojiToUpdate = realm.object(ofType: Emoji.self, forPrimaryKey: emojiString) {
             do {
                 try realm.write {
-                    emojiToUpdate.Viewed += 1
+                    emojiToUpdate.Known_Count += 1
+                    
                 }
                 print("Incremented Viewed for \(emojiString)")
             } catch {
@@ -105,7 +106,7 @@ class EmojiRealmManager {
                 try realm.write {
                     emojiToUpdate.Viewed += 1
                 }
-                print("Incremented Viewed count for \(emojiString)")
+                print("Incremented Viewed count for \(emojiString) to \(emojiToUpdate.Viewed)")
                 
                 // Call the completion closure if it is provided
                 if let completion = completion {
