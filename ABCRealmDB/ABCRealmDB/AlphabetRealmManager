@@ -1,0 +1,35 @@
+//
+//  AlphabetRealmManager
+//  ABCRealmDB
+//
+//  Created by Nik Edmiidz on 4/12/25.
+//
+
+import RealmSwift
+
+class AlphabetRealmManager {
+    func initializeDatabase() {
+        let realm = try! Realm()
+        
+        // Check if we already have data
+        let existingLetters = realm.objects(Alphabet.self)
+        if existingLetters.count == 0 {
+            let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            
+            try! realm.write {
+                for letter in alphabet {
+                    let alphabetObj = Alphabet()
+                    alphabetObj.Letter = String(letter)
+                    alphabetObj.English_Known_Count = "0"
+                    alphabetObj.French_Known_Count = "0"
+                    alphabetObj.Viewed = 0
+                    
+                    realm.add(alphabetObj)
+                }
+            }
+            print("Database initialized with \(alphabet.count) letters")
+        }
+    }
+    
+    // Add other database methods here
+}

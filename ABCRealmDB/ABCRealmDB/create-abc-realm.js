@@ -29,7 +29,7 @@ async function createAlphabetDatabase() {
     realm = await Realm.open({
       schema: [AlphabetSchema],
       path: realmPath,
-      schemaVersion: 1
+      schemaVersion: 0  // Try with 0 instead of 1
     });
 
     console.log("Database created successfully.");
