@@ -15,7 +15,7 @@ const EmojiSchema = {
 };
 
 const config = {
-  path: "/Users/edmiidz/Projects/GitHub/RapidEmoji-Race/EmojiRealmDB/EmojiRealmDB/EmojiRealmDB_doesnotwork.realm",
+  path: "/Users/edmiidz/Projects/GitHub/RapidEmoji-Race/ABCRealmDB/ABCRealmDB/ABCRealmDB_doesnotwork.realm",
   schema: [EmojiSchema],
   schemaVersion: 1, // Adjust this based on the current schema version of your Realm database
   migration: (oldRealm, newRealm) => {

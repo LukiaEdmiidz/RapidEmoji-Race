@@ -1,14 +1,14 @@
 //
-//  EmojiRealmDBTests.swift
-//  EmojiRealmDBTests
+//  ABCRealmDBTests.swift
+//  ABCRealmDBTests
 //
 //  Created by Nik Edmiidz on 3/23/24.
 //
 
 import XCTest
-@testable import EmojiRealmDB
+@testable import ABCRealmDB
 
-final class EmojiRealmDBTests: XCTestCase {
+final class ABCRealmDBTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

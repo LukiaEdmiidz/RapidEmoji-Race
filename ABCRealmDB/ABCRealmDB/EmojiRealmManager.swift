@@ -1,6 +1,6 @@
 //
 //  EmojiRealmManager.swift
-//  EmojiRealmDB
+//  ABCRealmDB
 //
 //  Created by Nik Edmiidz on 3/23/24.
 //
@@ -16,12 +16,12 @@ class EmojiRealmManager {
             // Realm initialization code
             let fileManager = FileManager.default
             let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-            let destinationURL = documentsURL.appendingPathComponent("EmojiRealmDB.realm")
+            let destinationURL = documentsURL.appendingPathComponent("ABCRealmDB.realm")
 
             // Check if the file already exists in the Documents directory
             if !fileManager.fileExists(atPath: destinationURL.path) {
-                guard let bundledRealmURL = Bundle.main.url(forResource: "EmojiRealmDB", withExtension: "realm") else {
-                    print("Failed to find 'EmojiRealmDB.realm' in app bundle.")
+                guard let bundledRealmURL = Bundle.main.url(forResource: "ABCRealmDB", withExtension: "realm") else {
+                    print("Failed to find 'ABCRealmDB.realm' in app bundle.")
                     return
                 }
                 // Copy the bundled Realm file to the Documents directory

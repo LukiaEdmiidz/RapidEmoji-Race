@@ -1,13 +1,13 @@
 //
-//  EmojiRealmDBUITestsLaunchTests.swift
-//  EmojiRealmDBUITests
+//  ABCRealmDBUITestsLaunchTests.swift
+//  ABCRealmDBUITests
 //
 //  Created by Nik Edmiidz on 3/23/24.
 //
 
 import XCTest
 
-final class EmojiRealmDBUITestsLaunchTests: XCTestCase {
+final class ABCRealmDBUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "908025712BAFC05D00CDA02E"
-               BuildableName = "EmojiRealmDB.app"
-               BlueprintName = "EmojiRealmDB"
-               ReferencedContainer = "container:EmojiRealmDB.xcodeproj">
+               BuildableName = "ABCRealmDB.app"
+               BlueprintName = "ABCRealmDB"
+               ReferencedContainer = "container:ABCRealmDB.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -36,9 +36,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "908025812BAFC05F00CDA02E"
-               BuildableName = "EmojiRealmDBTests.xctest"
-               BlueprintName = "EmojiRealmDBTests"
-               ReferencedContainer = "container:EmojiRealmDB.xcodeproj">
+               BuildableName = "ABCRealmDBTests.xctest"
+               BlueprintName = "ABCRealmDBTests"
+               ReferencedContainer = "container:ABCRealmDB.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9080258B2BAFC05F00CDA02E"
-               BuildableName = "EmojiRealmDBUITests.xctest"
-               BlueprintName = "EmojiRealmDBUITests"
-               ReferencedContainer = "container:EmojiRealmDB.xcodeproj">
+               BuildableName = "ABCRealmDBUITests.xctest"
+               BlueprintName = "ABCRealmDBUITests"
+               ReferencedContainer = "container:ABCRealmDB.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -69,9 +69,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "908025712BAFC05D00CDA02E"
-            BuildableName = "EmojiRealmDB.app"
-            BlueprintName = "EmojiRealmDB"
-            ReferencedContainer = "container:EmojiRealmDB.xcodeproj">
+            BuildableName = "ABCRealmDB.app"
+            BlueprintName = "ABCRealmDB"
+            ReferencedContainer = "container:ABCRealmDB.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -86,9 +86,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "908025712BAFC05D00CDA02E"
-            BuildableName = "EmojiRealmDB.app"
-            BlueprintName = "EmojiRealmDB"
-            ReferencedContainer = "container:EmojiRealmDB.xcodeproj">
+            BuildableName = "ABCRealmDB.app"
+            BlueprintName = "ABCRealmDB"
+            ReferencedContainer = "container:ABCRealmDB.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

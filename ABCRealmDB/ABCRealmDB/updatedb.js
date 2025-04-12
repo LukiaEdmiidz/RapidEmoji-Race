@@ -19,7 +19,7 @@ const EmojiSchema = {
 };
 
 async function updateEmojiViewed() {
-  const realmPath = path.join(__dirname, "EmojiRealmDB.realm");
+  const realmPath = path.join(__dirname, "ABCRealmDB.realm");
   let realm;
 
   try {

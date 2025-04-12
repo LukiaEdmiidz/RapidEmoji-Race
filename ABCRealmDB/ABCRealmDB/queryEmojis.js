@@ -26,7 +26,7 @@ async function openRealmWithSchemaVersion() {
     console.log('Opening Realm with schema version 4, migration allowed');
     // Open Realm with schema version 4 and handle migration
     realm = await Realm.open({
-      path: path.resolve(__dirname, 'EmojiRealmDB.realm'),
+      path: path.resolve(__dirname, 'ABCRealmDB.realm'),
       schema: [EmojiSchema], // Include the existing schema for the Emoji table
       schemaVersion: 4,      // Set the schema version to match the file version (version 4)
       migration: (oldRealm, newRealm) => {
